@@ -1,0 +1,14 @@
+node_modules
+build
+
+tmp
+dist
+app
+env
+
+
+dbconfig.ts
+
+
+.env
+.mysql-data
