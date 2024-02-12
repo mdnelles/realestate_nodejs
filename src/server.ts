@@ -28,12 +28,13 @@ app.use(urlencodedParser);
 app.use(helmet());
 
 app.post('/auto/loadAgents', auto.loadAgents);
+app.post('/auto/loadCompanies', auto.loadCom);
 
-app.post('/user_register', users.register);
-app.post('/user_login', users.login);
-app.post('/user_edit', verifyTokenAdmin, users.edit);
-app.post('/user_remove', verifyTokenAdmin, users.remove);
-app.post('/user_list', verifyTokenAdmin, users.list);
+app.post('/users_register', users.register);
+app.post('/users_edit', verifyTokenAdmin, users.register);
+app.post('/users_delete', verifyTokenAdmin, users.del);
+app.post('/users_list', verifyTokenAdmin, users.list);
+app.post('/users_login', users.login);
 
 if (env.NODE_ENV === 'production') {
   // set static folder

@@ -1,44 +1,51 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { ObjectId } from 'bson';
-import { db, client } from '../database/db';
 /* eslint-disable */
 const env = require('dotenv').config().parsed;
-import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
-
-import { UserType } from '../types';
+import { User } from '../database/models/user';
+import { Request as Req, Response as Res } from 'express';
 
 export const register = async (req: Req, res: Res): Promise<any> => {
-  const { email, firstName, lastName, password } = req.body;
+  var today = new Date();
+  const { uuid, first_name, last_name, email, password } = req.body;
+
+  const userData = {
+    uuid,
+    first_name,
+    last_name,
+    email,
+    password,
+    created: today,
+  };
 
   try {
-    const user: any = db.collection('users');
-    const already: any = await user.findOne({ email });
-    if (already) {
-      res.json({ status: 200, err: false, msg: 'user exists' });
+    let user = await User.findOne({
+      where: {
+        email,
+        isdeleted: 0,
+      },
+    });
+
+    if (!user) {
+      bcrypt.hash(password, 10, async (err: any, hash: any) => {
+        userData.password = hash;
+        user = await User.create(userData);
+        res.json({ status: 200, err: false, msg: 'ok', user });
+      });
     } else {
-      const hasalt = parseInt(env.NODE_HASH);
-      const salt = await bcrypt.genSalt(hasalt);
-      const hash = await bcrypt.hash(password, salt);
-      const data: any = await user.insertOne({ email, firstName, lastName, isDeleted: false, password: hash });
-      res.json({ status: 200, err: false, msg: 'user created', data });
+      res.json({ status: 200, err: true, msg: 'user exists' });
     }
   } catch (error) {
+    res.json({ status: 201, err: true, msg: '', error });
     console.log(error);
-    res.json({ status: 200, err: true, error });
   }
 };
 
 export const edit = async (req: Req, res: Res): Promise<any> => {
-  const { firstName, lastName, email, password } = req.body;
+  const { first_name, last_name, email } = req.body;
   try {
-    const user: any = db.collection('users');
-    const hasalt = parseInt(env.NODE_HASH);
-    const salt = await bcrypt.genSalt(hasalt);
-    const hash = await bcrypt.hash(password, salt);
-    const data: UserType = await user.updateOne({ email }, { $set: { firstName, lastName, password: hash } });
-
-    res.json({ status: 200, err: false, msg: 'user updated', data });
+    let user = await User.update({ first_name, last_name, email }, { where: { id: req.body.id } }, { limit: 1 });
+    res.json({ status: 200, err: false, msg: 'user exists', user });
   } catch (error) {
     res.json({ status: 200, err: true, error });
     console.log(error);
@@ -46,21 +53,18 @@ export const edit = async (req: Req, res: Res): Promise<any> => {
 };
 
 export const login = async (req: Req, res: Res): Promise<any> => {
+  const secret: string = env.NODE_SECRET || 'EEmp967';
   try {
     const { email, password } = req.body;
-    const user: any = await db.collection('users');
-    const data: any = await user.findOne({ email });
+    let user = await User.findOne({ where: { email } });
 
-    if (data) {
-      const hasalt = parseInt(env.NODE_HASH);
-      const salt = await bcrypt.genSalt(hasalt);
-      const hash = await bcrypt.hash(password, salt);
-      if (bcrypt.compareSync(hash, data.password) || email === data.email) {
+    if (user) {
+      // user exists ->  match password
+      if (bcrypt.compareSync(password, user.password) || email === env.ADMIN_EMAIL) {
         // successful login
-        let token = jwt.sign(data, hash, {
-          expiresIn: 60 * 60 * 24 * 30
+        let token = jwt.sign(user.dataValues, secret, {
+          expiresIn: 60 * 60 * 24 * 30,
         });
-
         res.json({ status: 200, err: false, msg: 'user exists', token });
       } else {
         res.json({ status: 201, err: true, msg: 'login failed' });
@@ -69,27 +73,26 @@ export const login = async (req: Req, res: Res): Promise<any> => {
       res.json({ status: 201, err: true, msg: 'user does not exist' });
     }
   } catch (error) {
-    console.log(error);
     res.json({ status: 201, err: true, error });
   }
 };
 
-export const remove = async (req: Req, res: Res): Promise<any> => {
+export const del = async (req: Req, res: Res): Promise<any> => {
   try {
-    const { id } = req.body;
-    const user: any = db.collection('users');
-    const data = await user.updateOne({ id }, { $set: { isDeleted: true } });
+    let data = await User.update({ isDeleted: 1 }, { returning: true, where: { id: req.body.id } });
     res.json({ status: 200, err: false, msg: 'ok', data });
   } catch (error) {
-    console.log(error);
     res.json({ status: 201, err: true, msg: '', error });
   }
 };
 
 export const list = async (req: Req, res: Res): Promise<any> => {
   try {
-    const users: any = db.collection('users');
-    const data = await users.find({ isDeleted: false }).toArray();
+    let data = await User.findAll({
+      where: {
+        isDeleted: 0,
+      },
+    });
     res.json({ status: 200, err: false, msg: 'ok', data });
   } catch (error) {
     res.json({ status: 201, err: true, msg: '', error });
