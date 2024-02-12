@@ -10,6 +10,7 @@ const env = require('dotenv').config().parsed;
 import { verifyTokenAdmin } from './routes/Token';
 
 import * as users from './routes/UserRoutes';
+import * as auto from './routes/AutoRoutes';
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
@@ -25,6 +26,8 @@ app.use(express.json());
 app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(helmet());
+
+app.post('/auto/loadAgents', auto.loadAgents);
 
 app.post('/user_register', users.register);
 app.post('/user_login', users.login);
