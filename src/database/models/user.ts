@@ -1,13 +1,19 @@
 import Sequelize from 'sequelize';
 import { db } from '../db';
 
-export const Agent = db.sequelize.define(
-  'agent',
+export const User = db.sequelize.define(
+  'user',
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    email: {
+      type: Sequelize.STRING,
+    },
+    password: {
+      type: Sequelize.STRING,
     },
     first_name: {
       type: Sequelize.STRING,
@@ -15,29 +21,16 @@ export const Agent = db.sequelize.define(
     last_name: {
       type: Sequelize.STRING,
     },
-    license_number: {
-      type: Sequelize.STRING,
-    },
-    phone: {
-      type: Sequelize.STRING,
-    },
-    phone2: {
-      type: Sequelize.STRING,
-    },
-    cell: {
-      type: Sequelize.STRING,
-    },
-    cell2: {
-      type: Sequelize.STRING,
-    },
-    email: {
-      type: Sequelize.STRING,
-    },
-    url: {
-      type: Sequelize.STRING,
-    },
-    office_id: {
+    admin: {
       type: Sequelize.INTEGER,
+    },
+    last_login: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW,
+    },
+    isDeleted: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
   },
   {

@@ -359,7 +359,7 @@ Company.init(
     sequelize,
     modelName: 'company',
     tableName: 'companies',
-    timestamps: true,
+    timestamps: false,
   },
 );
 
