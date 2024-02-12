@@ -1,8 +1,9 @@
 // Import Sequelize module
 import { Sequelize, DataTypes } from 'sequelize';
+const env = require('dotenv').config().parsed;
 
 // Initialize Sequelize instance
-const sequelize = new Sequelize('database', 'username', 'password', {
+const sequelize = new Sequelize(env.DB_NAME, env.DB_USER, env.DB_PASS, {
   host: 'localhost',
   dialect: 'mysql',
 });
