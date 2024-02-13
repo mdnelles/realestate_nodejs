@@ -228,8 +228,20 @@ export const Listing: any = db.sequelize.define(
     model_suite_number: {
       type: Sequelize.STRING(255),
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW,
+    },
+    isDeleted: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
-    timestamps: false,
+    timestamps: true,
   },
 );

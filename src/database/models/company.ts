@@ -207,8 +207,20 @@ export const Company: any = db.sequelize.define(
     agent_information: {
       type: Sequelize.TEXT,
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW,
+    },
+    isDeleted: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
-    timestamps: false,
+    timestamps: true,
   },
 );
