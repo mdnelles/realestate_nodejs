@@ -1,43 +1,27 @@
-// Import Sequelize module
-import { Sequelize, DataTypes } from 'sequelize';
-const env = require('dotenv').config().parsed;
+import Sequelize from 'sequelize';
+import { db } from '../db';
 
-// Initialize Sequelize instance
-const sequelize = new Sequelize(env.DB_NAME, env.DB_USER, env.DB_PASS, {
-  host: 'localhost',
-  dialect: 'mysql',
-});
-
-// Define the Links model
-const Links = sequelize.define('links', {
-  link_id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
+export const Link: any = db.sequelize.define(
+  'links',
+  {
+    link_id: {
+      type: Sequelize.STRING,
+      primaryKey: true,
+    },
+    listing_id: {
+      type: Sequelize.STRING,
+    },
+    link_type: {
+      type: Sequelize.STRING(255),
+    },
+    link_title: {
+      type: Sequelize.STRING(255),
+    },
+    link_url: {
+      type: Sequelize.STRING(255),
+    },
   },
-  listing_id: {
-    type: DataTypes.INTEGER,
+  {
+    timestamps: false,
   },
-  link_type: {
-    type: DataTypes.STRING(255),
-  },
-  link_title: {
-    type: DataTypes.STRING(255),
-  },
-  link_url: {
-    type: DataTypes.STRING(255),
-  },
-});
-
-// Synchronize the model with the database
-async function syncModel() {
-  try {
-    await sequelize.sync({ force: true });
-    console.log('Model synchronized successfully.');
-  } catch (error) {
-    console.error('Error synchronizing model:', error);
-  }
-}
-
-// Export the model
-module.exports = { Links, syncModel };
+);

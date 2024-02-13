@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `agents` (
-  `id` int NOT NULL,
+  `id`varchar(25)NOT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
   `license_number` varchar(255) DEFAULT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `agents` (
   `cell2` varchar(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
-  `office_id` int DEFAULT NULL
+  `office_id`varchar(25)DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -48,12 +48,12 @@ CREATE TABLE `agents` (
 --
 
 CREATE TABLE `companies` (
-  `id` int NOT NULL,
+  `id`varchar(25)NOT NULL,
   `street_number` varchar(255) DEFAULT NULL,
   `street_name` varchar(255) DEFAULT NULL,
   `unit_number` varchar(255) DEFAULT NULL,
-  `price_current` decimal(10,2) DEFAULT NULL,
-  `price_current_rent` decimal(10,2) DEFAULT NULL,
+  `price_current` varchar(50) DEFAULT NULL,
+  `price_current_rent` varchar(50) DEFAULT NULL,
   `subdivision` varchar(255) DEFAULT NULL,
   `region` varchar(255) DEFAULT NULL,
   `district` varchar(255) DEFAULT NULL,
@@ -61,18 +61,18 @@ CREATE TABLE `companies` (
   `property_name` varchar(255) DEFAULT NULL,
   `commercial_type` varchar(255) DEFAULT NULL,
   `business_type` varchar(255) DEFAULT NULL,
-  `sqft_total` int DEFAULT NULL,
-  `lot_sqft` int DEFAULT NULL,
-  `lot_width_front` int DEFAULT NULL,
-  `lot_width_back` int DEFAULT NULL,
+  `sqft_total`varchar(25)DEFAULT NULL,
+  `lot_sqft`varchar(25)DEFAULT NULL,
+  `lot_width_front`varchar(25)DEFAULT NULL,
+  `lot_width_back`varchar(25)DEFAULT NULL,
   `lot_shape` varchar(255) DEFAULT NULL,
-  `closed_area` int DEFAULT NULL,
-  `open_area` int DEFAULT NULL,
-  `units_in_building` int DEFAULT NULL,
-  `number_of_storeys` int DEFAULT NULL,
+  `closed_area`varchar(25)DEFAULT NULL,
+  `open_area`varchar(25)DEFAULT NULL,
+  `units_in_building`varchar(25)DEFAULT NULL,
+  `number_of_storeys`varchar(25)DEFAULT NULL,
   `postal_code` varchar(20) DEFAULT NULL,
   `water` varchar(255) DEFAULT NULL,
-  `year_built` int DEFAULT NULL,
+  `year_built`varchar(25)DEFAULT NULL,
   `construction` varchar(255) DEFAULT NULL,
   `possession` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -82,10 +82,10 @@ CREATE TABLE `companies` (
   `interior_features` text,
   `exterior_features` text,
   `other_services` text,
-  `listing_office_id` int DEFAULT NULL,
-  `colisting_office_id` int DEFAULT NULL,
-  `listing_agent_id` int DEFAULT NULL,
-  `colisting_agent_id` int DEFAULT NULL,
+  `listing_office_id`varchar(25)DEFAULT NULL,
+  `colisting_office_id`varchar(25)DEFAULT NULL,
+  `listing_agent_id`varchar(25)DEFAULT NULL,
+  `colisting_agent_id`varchar(25)DEFAULT NULL,
   `business_name` varchar(255) DEFAULT NULL,
   `date_listed` date DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
@@ -100,18 +100,18 @@ CREATE TABLE `companies` (
   `cooling` varchar(255) DEFAULT NULL,
   `remodelled` varchar(255) DEFAULT NULL,
   `access` varchar(255) DEFAULT NULL,
-  `parking_spaces` int DEFAULT NULL,
+  `parking_spaces`varchar(25)DEFAULT NULL,
   `parking_level` varchar(255) DEFAULT NULL,
   `parking_types` text,
-  `monthly_assessment` decimal(10,2) DEFAULT NULL,
+  `monthly_assessment` varchar(50) DEFAULT NULL,
   `assessment_includes` text,
   `offices_x_floors` varchar(255) DEFAULT NULL,
-  `number_of_buildings` int DEFAULT NULL,
-  `listing_photo_count` int DEFAULT NULL,
+  `number_of_buildings`varchar(25)DEFAULT NULL,
+  `listing_photo_count`varchar(25)DEFAULT NULL,
   `building_name` varchar(255) DEFAULT NULL,
-  `latitude` decimal(10,6) DEFAULT NULL,
-  `longitude` decimal(10,6) DEFAULT NULL,
-  `units_per_floor` int DEFAULT NULL,
+  `latitude` varchar(50) DEFAULT NULL,
+  `longitude` varchar(50) DEFAULT NULL,
+  `units_per_floor`varchar(25)DEFAULT NULL,
   `style` varchar(255) DEFAULT NULL,
   `crea_display_address` text,
   `agent_information` text,
@@ -126,8 +126,8 @@ CREATE TABLE `companies` (
 --
 
 CREATE TABLE `links` (
-  `link_id` int NOT NULL,
-  `listing_id` int DEFAULT NULL,
+  `link_id`varchar(25)NOT NULL,
+  `listing_id`varchar(25)DEFAULT NULL,
   `link_type` varchar(255) DEFAULT NULL,
   `link_title` varchar(255) DEFAULT NULL,
   `link_url` varchar(255) DEFAULT NULL
@@ -140,47 +140,47 @@ CREATE TABLE `links` (
 --
 
 CREATE TABLE `listings` (
-  `id` int NOT NULL,
+  `id`varchar(25)NOT NULL,
   `street_number` varchar(255) DEFAULT NULL,
   `street_name` varchar(255) DEFAULT NULL,
   `unit_number` varchar(255) DEFAULT NULL,
-  `price_current` decimal(10,2) DEFAULT NULL,
-  `price_current_rent` decimal(10,2) DEFAULT NULL,
+  `price_current` varchar(50) DEFAULT NULL,
+  `price_current_rent` varchar(50) DEFAULT NULL,
   `subdivision` varchar(255) DEFAULT NULL,
   `region` varchar(255) DEFAULT NULL,
   `district` varchar(255) DEFAULT NULL,
   `map_area` varchar(255) DEFAULT NULL,
   `property_type` varchar(255) DEFAULT NULL,
-  `year_built` int DEFAULT NULL,
-  `bedrooms` int DEFAULT NULL,
-  `bathrooms` int DEFAULT NULL,
-  `half_bathrooms` int DEFAULT NULL,
-  `number_of_rooms` int DEFAULT NULL,
-  `lot_sqft` int DEFAULT NULL,
-  `sqft_total` int DEFAULT NULL,
-  `closed_area` int DEFAULT NULL,
-  `open_area` int DEFAULT NULL,
-  `lot_width_front` int DEFAULT NULL,
-  `lot_width_back` int DEFAULT NULL,
+  `year_built`varchar(25)DEFAULT NULL,
+  `bedrooms`varchar(25)DEFAULT NULL,
+  `bathrooms`varchar(25)DEFAULT NULL,
+  `half_bathrooms`varchar(25)DEFAULT NULL,
+  `number_of_rooms`varchar(25)DEFAULT NULL,
+  `lot_sqft`varchar(25)DEFAULT NULL,
+  `sqft_total`varchar(25)DEFAULT NULL,
+  `closed_area`varchar(25)DEFAULT NULL,
+  `open_area`varchar(25)DEFAULT NULL,
+  `lot_width_front`varchar(25)DEFAULT NULL,
+  `lot_width_back`varchar(25)DEFAULT NULL,
   `style` varchar(255) DEFAULT NULL,
   `remodelled` varchar(255) DEFAULT NULL,
   `possession` varchar(255) DEFAULT NULL,
   `zoning` varchar(255) DEFAULT NULL,
   `remarks` text,
   `remarks_es` text,
-  `listing_office_id` int DEFAULT NULL,
-  `colisting_office_id` int DEFAULT NULL,
-  `listing_agent_id` int DEFAULT NULL,
-  `colisting_agent_id` int DEFAULT NULL,
+  `listing_office_id`varchar(25)DEFAULT NULL,
+  `colisting_office_id`varchar(25)DEFAULT NULL,
+  `listing_agent_id`varchar(25)DEFAULT NULL,
+  `colisting_agent_id`varchar(25)DEFAULT NULL,
   `listing_agent_phone` varchar(20) DEFAULT NULL,
   `unique_id` varchar(255) DEFAULT NULL,
   `rooms` varchar(255) DEFAULT NULL,
   `date_listed` date DEFAULT NULL,
   `postal_code` varchar(20) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  `tax_year` int DEFAULT NULL,
+  `tax_year`varchar(25)DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `monthly_assessment` decimal(10,2) DEFAULT NULL,
+  `monthly_assessment` varchar(50) DEFAULT NULL,
   `assessment_includes` text,
   `date_expired` date DEFAULT NULL,
   `lot_features` text,
@@ -199,20 +199,20 @@ CREATE TABLE `listings` (
   `flooring` varchar(255) DEFAULT NULL,
   `water` varchar(255) DEFAULT NULL,
   `construction` varchar(255) DEFAULT NULL,
-  `parking_spaces` int DEFAULT NULL,
+  `parking_spaces`varchar(25)DEFAULT NULL,
   `parking_level` varchar(255) DEFAULT NULL,
   `parking_types` text,
   `internal_features` text,
   `shared_amenities` text,
-  `listing_photo_count` int DEFAULT NULL,
+  `listing_photo_count`varchar(25)DEFAULT NULL,
   `building_name` varchar(255) DEFAULT NULL,
-  `longitude` decimal(10,6) DEFAULT NULL,
-  `latitude` decimal(10,6) DEFAULT NULL,
-  `units_per_floor` int DEFAULT NULL,
+  `longitude` varchar(50) DEFAULT NULL,
+  `latitude` varchar(50) DEFAULT NULL,
+  `units_per_floor`varchar(25)DEFAULT NULL,
   `crea_display_address` text,
   `property_name` varchar(255) DEFAULT NULL,
-  `floors_in_building` int DEFAULT NULL,
-  `number_of_buildings` int DEFAULT NULL,
+  `floors_in_building`varchar(25)DEFAULT NULL,
+  `number_of_buildings`varchar(25)DEFAULT NULL,
   `model_suite_number` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -223,7 +223,7 @@ CREATE TABLE `listings` (
 --
 
 CREATE TABLE `office` (
-  `id` int NOT NULL,
+  `id`varchar(25)NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `address_line_1` varchar(255) DEFAULT NULL,
   `license_number` varchar(255) DEFAULT NULL,
@@ -279,31 +279,31 @@ ALTER TABLE `office`
 -- AUTO_INCREMENT for table `agents`
 --
 ALTER TABLE `agents`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id`varchar(25)NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id`varchar(25)NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `links`
 --
 ALTER TABLE `links`
-  MODIFY `link_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `link_id`varchar(25)NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `listings`
 --
 ALTER TABLE `listings`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id`varchar(25)NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `office`
 --
 ALTER TABLE `office`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id`varchar(25)NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
