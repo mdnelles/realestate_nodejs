@@ -31,6 +31,7 @@ app.post('/auto/loadAgents', auto.loadAgents);
 app.post('/auto/loadCompanies', auto.loadCom);
 app.post('/auto/loadLinks', auto.loadLinks);
 app.post('/auto/loadListings', auto.loadListings);
+app.post('/auto/loadOffices', auto.loadOffices);
 
 app.post('/users_register', users.register);
 app.post('/users_edit', verifyTokenAdmin, users.register);

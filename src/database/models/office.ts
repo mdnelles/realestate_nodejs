@@ -1,80 +1,65 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import Sequelize from 'sequelize';
 import { db } from '../db';
 
-export interface OfficeAttributes {
-  id?: number;
-  name: string;
-  address_line_1: string;
-  license_number: string;
-  phone: string;
-  phone_2: string | null;
-  toll_free: string | null;
-  fax: string | null;
-  email: string;
-  url: string | null;
-}
-
-export class Office extends Model<OfficeAttributes> implements OfficeAttributes {
-  public id?: number;
-  public name!: string;
-  public address_line_1!: string;
-  public license_number!: string;
-  public phone!: string;
-  public phone_2!: string | null;
-  public toll_free!: string | null;
-  public fax!: string | null;
-  public email!: string;
-  public url!: string | null;
-}
-
-Office.init(
+export const Office = db.sequelize.define(
+  'offices',
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
     name: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     address_line_1: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     license_number: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     phone: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     phone_2: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: true,
     },
     toll_free: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: true,
     },
     fax: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: true,
     },
     email: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     url: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: true,
+    },
+    createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    isDeleted: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   {
-    sequelize: db.sequelize,
-    modelName: 'office',
-    tableName: 'offices',
     timestamps: true,
   },
 );

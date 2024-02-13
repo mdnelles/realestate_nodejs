@@ -1,10 +1,11 @@
 import path from 'path';
 import * as fs from 'fs';
+import csv from 'csv-parser';
 import { Agent } from '../database/models/agents';
 import { Company } from '../database/models/company';
 import { Link } from '../database/models/link';
 import { Listing } from '../database/models/listing';
-import csv from 'csv-parser';
+import { Office } from '../database/models/office';
 
 import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
 
@@ -13,8 +14,11 @@ export const loadAgents = async (req: Req, res: Res): Promise<any> => {
   const csvFilePath = path.join(__dirname, '../tmp/agt.csv');
   try {
     const stream = fs.createReadStream(csvFilePath);
-
     const results: any = [];
+
+    // truncate the table
+    await Agent.destroy({ where: {} });
+
     stream
       .pipe(csv())
       .on('data', (data: any) => results.push(data))
@@ -53,6 +57,10 @@ export const loadCom = async (req: Req, res: Res): Promise<any> => {
     const csvFilePath = path.join(__dirname, '../tmp/com.csv');
     const stream = fs.createReadStream(csvFilePath);
     const results: any = [];
+
+    // truncate the table
+    await Company.destroy({ where: {} });
+
     stream
       .pipe(csv())
       .on('data', (data: any) => results.push(data))
@@ -144,6 +152,10 @@ export const loadLinks = async (req: Req, res: Res): Promise<any> => {
     const csvFilePath = path.join(__dirname, '../tmp/link.csv');
     const stream = fs.createReadStream(csvFilePath);
     const results: any = [];
+
+    // truncate the table
+    await Link.destroy({ where: {} });
+
     stream
       .pipe(csv())
       .on('data', (data: any) => results.push(data))
@@ -174,6 +186,10 @@ export const loadListings = async (req: Req, res: Res): Promise<any> => {
     const csvFilePath = path.join(__dirname, '../tmp/res.csv');
     const stream = fs.createReadStream(csvFilePath);
     const results: any = [];
+
+    // truncate the table
+    await Listing.destroy({ where: {} });
+
     stream
       .pipe(csv())
       .on('data', (data: any) => results.push(data))
@@ -260,6 +276,44 @@ export const loadListings = async (req: Req, res: Res): Promise<any> => {
           });
         }
         res.json({ status: 200, err: false, msg: 'listing list updated' });
+      });
+  } catch (error: any) {
+    console.error(`Error: ${error.message}`);
+  }
+};
+
+export const loadOffices = async (req: Req, res: Res): Promise<any> => {
+  try {
+    const csvFilePath = path.join(__dirname, '../tmp/ofc.csv');
+    const stream = fs.createReadStream(csvFilePath);
+    const results: any = [];
+
+    // truncate the table
+    await Office.destroy({ where: {} });
+
+    stream
+      .pipe(csv())
+      .on('data', (data: any) => results.push(data))
+      .on('end', async () => {
+        console.log('results');
+        for (const result of results) {
+          console.log(result.first_name);
+
+          // populate the company table
+          const office = await Office.create({
+            name: result.name,
+            address_line_1: result.address_line_1,
+            license_number: result.license_number,
+            phone: result.phone,
+            phone_2: result.phone_2,
+            toll_free: result.toll_free,
+            fax: result.fax,
+            email: result.email,
+            url: result.url,
+          });
+          console.log(`Office ${office.id} created`);
+        }
+        res.json({ status: 200, err: false, msg: 'office list updated' });
       });
   } catch (error: any) {
     console.error(`Error: ${error.message}`);

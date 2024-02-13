@@ -28,12 +28,20 @@ export const User = db.sequelize.define(
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
     },
+    createdAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW,
+    },
     isDeleted: {
       type: Sequelize.INTEGER,
       defaultValue: 0,
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
   },
 );
