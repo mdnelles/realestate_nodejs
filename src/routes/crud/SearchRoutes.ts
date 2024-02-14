@@ -1,30 +1,7 @@
-import { Agents } from '../../database/models/agents';
-import { Companies } from '../../database/models/companies';
-import { Links } from '../../database/models/links';
-import { Listings } from '../../database/models/listings';
-import { Offices } from '../../database/models/offices';
-import { Users } from '../../database/models/users';
+import { QueryTypes } from 'sequelize';
 import { db } from '../../database/db';
 
-import { Op, Model, QueryTypes, where } from 'sequelize';
-
 import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
-import { getModelForTable } from '../../utilities/queries';
-import { on } from 'events';
-
-const modelsMap: { [key: string]: any } = {
-  agents: Agents,
-  companies: Companies,
-  links: Links,
-  listings: Listings,
-  offices: Offices,
-  users: Users,
-};
-
-export const raw = async (req: Req, res: Res, next: Next) => {
-  const users = await db.sequelize.query('SELECT * FROM `listings` LIMIT 20', { type: QueryTypes.SELECT });
-  res.json({ status: 200, err: false, msg: 'Success', data: users });
-};
 
 export const like = async (req: Req, res: Res) => {
   try {
@@ -114,6 +91,33 @@ export const and = async (req: Req, res: Res) => {
     // Execute the SQL query using Sequelize with replacements
     const data = await db.sequelize.query(sqlQuery, {
       replacements: replacements,
+      type: QueryTypes.SELECT,
+    });
+
+    res.json({ status: 200, err: false, msg: 'Success', data });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+// This function is used to retrieve all records from a table no search criteria
+export const all = async (req: Req, res: Res) => {
+  try {
+    const { tableName, limit = 10, offset = 0, order = 'ASC', onlyFields = null } = req.body;
+
+    const onlyFieldsArr = onlyFields ? onlyFields.split(',') : undefined;
+    const numericLimit = parseInt(limit, 10);
+
+    const sqlQuery = `
+      SELECT ${onlyFieldsArr ? onlyFieldsArr.join(', ') : '*'}
+      FROM ${tableName}
+      ORDER BY id ${order}
+      LIMIT ${numericLimit}
+      OFFSET ${offset};`;
+
+    // Execute the SQL query using Sequelize with replacements
+    const data = await db.sequelize.query(sqlQuery, {
       type: QueryTypes.SELECT,
     });
 
