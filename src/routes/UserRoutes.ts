@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 /* eslint-disable */
 const env = require('dotenv').config().parsed;
-import { User } from '../database/models/user';
+import { Users } from '../database/models/users';
 import { Request as Req, Response as Res } from 'express';
 
 export const register = async (req: Req, res: Res): Promise<any> => {
@@ -19,7 +19,7 @@ export const register = async (req: Req, res: Res): Promise<any> => {
   };
 
   try {
-    let user = await User.findOne({
+    let user = await Users.findOne({
       where: {
         email,
         isdeleted: 0,
@@ -29,7 +29,7 @@ export const register = async (req: Req, res: Res): Promise<any> => {
     if (!user) {
       bcrypt.hash(password, 10, async (err: any, hash: any) => {
         userData.password = hash;
-        user = await User.create(userData);
+        user = await Users.create(userData);
         res.json({ status: 200, err: false, msg: 'ok', user });
       });
     } else {
@@ -44,7 +44,7 @@ export const register = async (req: Req, res: Res): Promise<any> => {
 export const edit = async (req: Req, res: Res): Promise<any> => {
   const { first_name, last_name, email } = req.body;
   try {
-    let user = await User.update({ first_name, last_name, email }, { where: { id: req.body.id } }, { limit: 1 });
+    let user = await Users.update({ first_name, last_name, email }, { where: { id: req.body.id } }, { limit: 1 });
     res.json({ status: 200, err: false, msg: 'user exists', user });
   } catch (error) {
     res.json({ status: 200, err: true, error });
@@ -56,7 +56,7 @@ export const login = async (req: Req, res: Res): Promise<any> => {
   const secret: string = env.NODE_SECRET || 'EEmp967';
   try {
     const { email, password } = req.body;
-    let user = await User.findOne({ where: { email } });
+    let user = await Users.findOne({ where: { email } });
 
     if (user) {
       // user exists ->  match password
@@ -79,7 +79,7 @@ export const login = async (req: Req, res: Res): Promise<any> => {
 
 export const del = async (req: Req, res: Res): Promise<any> => {
   try {
-    let data = await User.update({ isDeleted: 1 }, { returning: true, where: { id: req.body.id } });
+    let data = await Users.update({ isDeleted: 1 }, { returning: true, where: { id: req.body.id } });
     res.json({ status: 200, err: false, msg: 'ok', data });
   } catch (error) {
     res.json({ status: 201, err: true, msg: '', error });
@@ -88,7 +88,7 @@ export const del = async (req: Req, res: Res): Promise<any> => {
 
 export const list = async (req: Req, res: Res): Promise<any> => {
   try {
-    let data = await User.findAll({
+    let data = await Users.findAll({
       where: {
         isDeleted: 0,
       },

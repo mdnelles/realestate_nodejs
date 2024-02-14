@@ -1,32 +1,24 @@
 import Sequelize from 'sequelize';
 import { db } from '../db';
 
-export const User = db.sequelize.define(
-  'user',
+export const Links: any = db.sequelize.define(
+  'links',
   {
-    id: {
-      type: Sequelize.INTEGER,
+    link_id: {
+      type: Sequelize.STRING,
       primaryKey: true,
-      autoIncrement: true,
     },
-    email: {
+    listing_id: {
       type: Sequelize.STRING,
     },
-    password: {
-      type: Sequelize.STRING,
+    link_type: {
+      type: Sequelize.STRING(255),
     },
-    first_name: {
-      type: Sequelize.STRING,
+    link_title: {
+      type: Sequelize.STRING(255),
     },
-    last_name: {
-      type: Sequelize.STRING,
-    },
-    admin: {
-      type: Sequelize.INTEGER,
-    },
-    last_login: {
-      type: Sequelize.DATE,
-      defaultValue: Sequelize.NOW,
+    link_url: {
+      type: Sequelize.STRING(255),
     },
     createdAt: {
       type: Sequelize.DATE,

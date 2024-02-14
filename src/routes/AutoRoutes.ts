@@ -1,11 +1,11 @@
 import path from 'path';
 import * as fs from 'fs';
 import csv from 'csv-parser';
-import { Agent } from '../database/models/agents';
-import { Company } from '../database/models/company';
-import { Link } from '../database/models/link';
-import { Listing } from '../database/models/listing';
-import { Office } from '../database/models/office';
+import { Agents } from '../database/models/agents';
+import { Companies } from '../database/models/companies';
+import { Links } from '../database/models/links';
+import { Listings } from '../database/models/listings';
+import { Offices } from '../database/models/offices';
 
 import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
 
@@ -17,7 +17,7 @@ export const loadAgents = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Agent.destroy({ where: {} });
+    await Agents.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -27,7 +27,7 @@ export const loadAgents = async (req: Req, res: Res): Promise<any> => {
         for (const result of results) {
           console.log(result.first_name);
           try {
-            const agent = await Agent.create({
+            const agent = await Agents.create({
               first_name: result.first_name,
               last_name: result.last_name,
               license_number: result.license_number,
@@ -59,7 +59,7 @@ export const loadCom = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Company.destroy({ where: {} });
+    await Companies.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -70,7 +70,7 @@ export const loadCom = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
 
           // populate the company table
-          const company = await Company.create({
+          const company = await Companies.create({
             street_number: result.street_number,
             street_name: result.street_name,
             unit_number: result.unit_number,
@@ -154,7 +154,7 @@ export const loadLinks = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Link.destroy({ where: {} });
+    await Links.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -165,7 +165,7 @@ export const loadLinks = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
 
           // populate the company table
-          const link = await Link.create({
+          const link = await Links.create({
             link_id: result.link_id,
             listing_id: result.listing_id,
             link_type: result.link_type,
@@ -188,7 +188,7 @@ export const loadListings = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Listing.destroy({ where: {} });
+    await Listings.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -199,7 +199,7 @@ export const loadListings = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
 
           // populate the company table
-          const listing = await Listing.create({
+          const listing = await Listings.create({
             street_number: result.street_number,
             street_name: result.street_name,
             unit_number: result.unit_number,
@@ -289,7 +289,7 @@ export const loadOffices = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Office.destroy({ where: {} });
+    await Offices.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -300,7 +300,7 @@ export const loadOffices = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
 
           // populate the company table
-          const office = await Office.create({
+          const office = await Offices.create({
             name: result.name,
             address_line_1: result.address_line_1,
             license_number: result.license_number,
