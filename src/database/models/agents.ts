@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
 import { db } from '../db';
 
-export const Agent = db.sequelize.define(
-  'agent',
+export const Agents = db.sequelize.define(
+  'agents',
   {
     id: {
       type: Sequelize.INTEGER,

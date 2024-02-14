@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import { db } from '../db';
 
-export const Listing: any = db.sequelize.define(
+export const Listings: any = db.sequelize.define(
   'listings',
   {
     id: {
