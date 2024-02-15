@@ -10,9 +10,11 @@ const env = require('dotenv').config().parsed;
 import { verifyTokenAdmin } from './routes/Token';
 
 import * as users from './routes/UserRoutes';
-import * as auto from './routes/AutoRoutes';
+import * as csv from './routes/CsvRoutes';
 import * as search from './routes/crud/SearchRoutes';
 import * as create from './routes/crud/CreateRoutes';
+import * as update from './routes/crud/UpdateRoutes';
+import * as del from './routes/crud/DeleteRoutes';
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
@@ -29,11 +31,11 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(helmet());
 
-app.post('/auto/loadAgents', auto.loadAgents);
-app.post('/auto/loadCompanies', auto.loadCom);
-app.post('/auto/loadLinks', auto.loadLinks);
-app.post('/auto/loadListings', auto.loadListings);
-app.post('/auto/loadOffices', auto.loadOffices);
+app.post('/csv/loadAgents', csv.loadAgents);
+app.post('/csv/loadCompanies', csv.loadCom);
+app.post('/csv/loadLinks', csv.loadLinks);
+app.post('/csv/loadListings', csv.loadListings);
+app.post('/csv/loadOffices', csv.loadOffices);
 
 app.post('/users_register', users.register);
 app.post('/users_edit', verifyTokenAdmin, users.register);
@@ -46,6 +48,12 @@ app.post('/crud/search/and', search.and);
 app.post('/crud/search/all', search.all);
 
 app.post('/crud/create', create.create);
+
+app.post('/crud/update/matching', update.updateMatching);
+app.post('/crud/update/all', update.updateAll);
+
+app.post('/crud/delete/matching', del.deleteMatching);
+app.post('/crud/delete/truncate', del.truncateTable);
 
 if (env.NODE_ENV === 'production') {
   // set static folder
