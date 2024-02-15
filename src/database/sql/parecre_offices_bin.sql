@@ -3,10 +3,10 @@
 -- Table structure for table `offices`
 --
 
-DROP TABLE IF EXISTS `offices`;
+DROP TABLE IF EXISTS `offices_bin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `offices` (
+CREATE TABLE `offices_bin` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `address_line_1` varchar(255) DEFAULT NULL,

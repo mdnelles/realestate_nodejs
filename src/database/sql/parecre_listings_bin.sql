@@ -3,10 +3,10 @@
 -- Table structure for table `listings`
 --
 
-DROP TABLE IF EXISTS `listings`;
+DROP TABLE IF EXISTS `listings_bin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `listings` (
+CREATE TABLE `listings_bin` (
   `id` int NOT NULL AUTO_INCREMENT,
   `street_number` varchar(255) DEFAULT NULL,
   `street_name` varchar(255) DEFAULT NULL,

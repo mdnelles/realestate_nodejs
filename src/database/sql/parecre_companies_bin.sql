@@ -1,12 +1,12 @@
 
 --
--- Table structure for table `companies`
+-- Table structure for table `companies_bin`
 --
 
-DROP TABLE IF EXISTS `companies`;
+DROP TABLE IF EXISTS `companies_bin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `companies` (
+CREATE TABLE `companies_bin` (
   `id` int NOT NULL AUTO_INCREMENT,
   `street_number` varchar(255) DEFAULT NULL,
   `street_name` varchar(255) DEFAULT NULL,
