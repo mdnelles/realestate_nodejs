@@ -49,11 +49,11 @@ app.post('/crud/search/all', search.all);
 
 app.post('/crud/create', create.create);
 
-app.post('/crud/update/matching', update.updateMatching);
-app.post('/crud/update/all', update.updateAll);
+app.post('/crud/update/matching', verifyTokenAdmin, update.updateMatching);
+app.post('/crud/update/all', verifyTokenAdmin, update.updateAll);
 
-app.post('/crud/delete/matching', del.deleteMatching);
-app.post('/crud/delete/truncate', del.truncateTable);
+app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching);
+app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable);
 
 if (env.NODE_ENV === 'production') {
   // set static folder

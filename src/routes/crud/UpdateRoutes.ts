@@ -33,7 +33,7 @@ export const updateMatching = async (req: Req, res: Res) => {
   }
 };
 
-const updateAll = async (req: Req, res: Res) => {
+export const updateAll = async (req: Req, res: Res) => {
   try {
     const { tableName, updateFields, updateValues } = req.body;
 
