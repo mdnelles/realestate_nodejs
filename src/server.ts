@@ -12,6 +12,7 @@ import { verifyTokenAdmin } from './routes/Token';
 import * as users from './routes/UserRoutes';
 import * as auto from './routes/AutoRoutes';
 import * as search from './routes/crud/SearchRoutes';
+import * as create from './routes/crud/CreateRoutes';
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
@@ -42,6 +43,9 @@ app.post('/users_login', users.login);
 
 app.post('/crud/search/like', search.like);
 app.post('/crud/search/and', search.and);
+app.post('/crud/search/all', search.all);
+
+app.post('/crud/create', create.create);
 
 if (env.NODE_ENV === 'production') {
   // set static folder
