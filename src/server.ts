@@ -33,8 +33,6 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(helmet());
 
-app.get('/data/getNewestAll', data.getNewestAll);
-
 app.post('/csv/loadAgents', csv.loadAgents);
 app.post('/csv/loadCompanies', csv.loadCom);
 app.post('/csv/loadLinks', csv.loadLinks);
@@ -58,6 +56,8 @@ app.post('/crud/update/all', verifyTokenAdmin, update.updateAll);
 
 app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching);
 app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable);
+
+app.get('/data/getNewestAll', data.getNewestAll);
 
 app.get('/test', test.test);
 app.get('/test2', test.test2);
