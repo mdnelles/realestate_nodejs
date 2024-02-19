@@ -17,6 +17,7 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
   const remoteDirectory = '/';
 
   // Local directory path to save downloaded files
+  process.chdir(__dirname); // change to the directory of this file
   const localDirectory = '../tmp'; // env.NODE_FTP_LOCAL_DIR;
 
   // List of files to download
