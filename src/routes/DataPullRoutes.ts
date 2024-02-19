@@ -32,12 +32,12 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
 
   const client: any = new ftp.Client();
   try {
-    //await client.access(ftpConfig);
+    await client.access(ftpConfig);
     console.log('FTP connected');
 
     // Switch to passive mode (optional, depending on your server configuration)
-    await client.usePasv(true);
-    console.log('Passive mode enabled');
+    //await client.usePasv(true);
+    //console.log('Passive mode enabled');
 
     for (const file of filesToDownload) {
       const remoteFile = `${remoteDirectory}/${file}`;
