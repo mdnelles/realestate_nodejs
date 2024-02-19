@@ -1,7 +1,9 @@
 node_modules
 build
 
-tmp
+tmp/*
+!tmp/.gitkeep
+
 dist
 app
 env
