@@ -53,7 +53,7 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
     client.close();
     console.log('FTP connection closed');
     // list the file name from the array in the msg
-    res.json({ status: 200, err: false, msg: `Files downloaded successfully ${filesToDownload}` });
+    res.json({ status: 200, err: false, msg: `Files downloaded successfully ${filesToDownload}`, localDirectory });
   }
 };
 
