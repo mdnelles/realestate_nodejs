@@ -16,6 +16,7 @@ import * as create from './routes/crud/CreateRoutes';
 import * as update from './routes/crud/UpdateRoutes';
 import * as del from './routes/crud/DeleteRoutes';
 import * as test from './routes/TestRoute';
+import * as data from './routes/DataPullRoutes';
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
@@ -55,6 +56,8 @@ app.post('/crud/update/all', verifyTokenAdmin, update.updateAll);
 
 app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching);
 app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable);
+
+app.get('/data/getNewestAll', data.getNewestAll);
 
 app.get('/test', test.test);
 app.get('/test2', test.test2);
