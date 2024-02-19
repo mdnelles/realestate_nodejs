@@ -1,0 +1,12 @@
+User
+link.csv
+"link_id","listing_id","link_type","link_title","link_url"
+agt.csv
+"first_name","last_name","license_number","phone","phone2","cell","cell2","email","url","id","office_id"
+res.csv
+"street_number","street_name","unit_number","price_current","price_current_rent","subdivision","region","district","map_area","property_type","id","year_built","bedrooms","bathrooms","half_bathrooms","number_of_rooms","lot_sqft","sqft_total","closed_area","open_area","lot_width_front","lot_width_back","style","remodelled","possession","zoning","remarks","remarks_es","listing_office_id","colisting_office_id","listing_agent_id","colisting_agent_id","listing_agent_phone","unique_id","rooms","date_listed","postal_code","status","tax_year","title","monthly_assessment","assessment_includes","date_expired","lot_features","interior_features","exterior_features","other_services","lot_shape","modification_date","directions","directions_es","web_title","web_title_es","access","roof","cooling","flooring","water","construction","parking_spaces","parking_level","parking_types","internal_features","shared_amenities","listing_photo_count","building_name","longitude","latitude","units_per_floor","crea_display_address","property_name","floors_in_building","number_of_buildings","model_suite_number"
+
+ofc.csv
+"name","address_line_1","license_number","phone","phone_2","toll_free","fax","email","url","id"
+com.csv
+"street_number","street_name","unit_number","price_current","price_current_rent","subdivision","region","district","map_area","id","property_name","commercial_type","business_type","sqft_total","lot_sqft","lot_width_front","lot_width_back","lot_shape","closed_area","open_area","units_in_building","number_of_storeys","postal_code","water","year_built","construction","possession","title","zoning","remarks","remarks_es","interior_features","exterior_features","other_services","listing_office_id","colisting_office_id","listing_agent_id","colisting_agent_id","business_name","date_listed","status","unique_id","date_expired","directions","directions_es","web_title","web_title_es","flooring","roof","cooling","remodelled","access","parking_spaces","parking_level","parking_types","monthly_assessment","assessment_includes","offices_x_floors","number_of_buildings","listing_photo_count","building_name","latitude","longitude","units_per_floor","style","crea_display_address","agent_information"

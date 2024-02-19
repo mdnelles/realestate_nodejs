@@ -15,6 +15,7 @@ import * as search from './routes/crud/SearchRoutes';
 import * as create from './routes/crud/CreateRoutes';
 import * as update from './routes/crud/UpdateRoutes';
 import * as del from './routes/crud/DeleteRoutes';
+import * as test from './routes/TestRoute';
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
@@ -54,6 +55,8 @@ app.post('/crud/update/all', verifyTokenAdmin, update.updateAll);
 
 app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching);
 app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable);
+
+app.get('/test', test.test);
 
 if (env.NODE_ENV === 'production') {
   // set static folder
