@@ -57,6 +57,7 @@ app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching);
 app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable);
 
 app.get('/test', test.test);
+app.get('/test2', test.test2);
 
 if (env.NODE_ENV === 'production') {
   // set static folder
