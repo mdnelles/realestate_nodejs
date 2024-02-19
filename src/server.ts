@@ -16,6 +16,7 @@ import * as create from './routes/crud/CreateRoutes';
 import * as update from './routes/crud/UpdateRoutes';
 import * as del from './routes/crud/DeleteRoutes';
 import * as test from './routes/TestRoute';
+import * as data from './routes/DataPullRoutes';
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
@@ -31,6 +32,8 @@ app.use(express.json());
 app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(helmet());
+
+app.get('/data/getNewestAll', data.getNewestAll);
 
 app.post('/csv/loadAgents', csv.loadAgents);
 app.post('/csv/loadCompanies', csv.loadCom);
