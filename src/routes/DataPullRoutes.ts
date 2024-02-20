@@ -92,3 +92,5 @@ export const getByDateSingle = async (req: Req, res: Res): Promise<any> => {
     console.log('FTP connection closed');
   }
 };
+
+//export const clearImagesFolder
