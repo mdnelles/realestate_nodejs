@@ -33,31 +33,31 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(helmet());
 
-app.post('/csv/loadAgents', csv.loadAgents);
-app.post('/csv/loadCompanies', csv.loadCom);
-app.post('/csv/loadLinks', csv.loadLinks);
-app.post('/csv/loadListings', csv.loadListings);
-app.post('/csv/loadOffices', csv.loadOffices);
+app.post('/csv/loadAgents', csv.loadAgents); // load agents
+app.post('/csv/loadCompanies', csv.loadCom); // load companies
+app.post('/csv/loadLinks', csv.loadLinks); // load links
+app.post('/csv/loadListings', csv.loadListings); // load listings
+app.post('/csv/loadOffices', csv.loadOffices); // load offices
 
-app.post('/users_register', users.register);
-app.post('/users_edit', verifyTokenAdmin, users.register);
-app.post('/users_delete', verifyTokenAdmin, users.del);
-app.post('/users_list', verifyTokenAdmin, users.list);
-app.post('/users_login', users.login);
+app.post('/users_register', users.register); // register a new user
+app.post('/users_edit', verifyTokenAdmin, users.register); // edit a user
+app.post('/users_delete', verifyTokenAdmin, users.del); // delete a user
+app.post('/users_list', verifyTokenAdmin, users.list); // get all users
+app.post('/users_login', users.login); // login
 
-app.post('/crud/search/like', search.like);
-app.post('/crud/search/and', search.and);
-app.post('/crud/search/all', search.all);
+app.post('/crud/search/like', search.like); // get records matching a condition
+app.post('/crud/search/and', search.and); // get records matching all conditions
+app.post('/crud/search/all', search.all); // get all records from a table
 
-app.post('/crud/create', create.create);
+app.post('/crud/create', create.create); // create a new record
 
-app.post('/crud/update/matching', verifyTokenAdmin, update.updateMatching);
-app.post('/crud/update/all', verifyTokenAdmin, update.updateAll);
+app.post('/crud/update/matching', verifyTokenAdmin, update.updateMatching); // update records matching a condition
+app.post('/crud/update/all', verifyTokenAdmin, update.updateAll); // update all records matching a condition
 
-app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching);
-app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable);
+app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching); // delete records matching a condition
+app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable); // clear all records from a table
 
-app.get('/data/getNewestAll', data.getNewestAll);
+app.get('/data/getNewestAll', data.getNewestAll); // get all newest files from FTP server
 
 app.get('/test', test.test);
 app.get('/test2', test.test2);
