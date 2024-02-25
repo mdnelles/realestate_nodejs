@@ -1,5 +1,8 @@
 //import fs from 'fs';
 import * as ftp from 'basic-ftp';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as unzipper from 'unzipper';
 
 const env = require('dotenv').config().parsed;
 // FTP server credentials
@@ -36,10 +39,6 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
     await client.access(ftpConfig);
     console.log('FTP connected');
 
-    // Switch to passive mode (optional, depending on your server configuration)
-    //await client.usePasv(true);
-    //console.log('Passive mode enabled');
-
     for (const file of filesToDownload) {
       const remoteFile = `${remoteDirectory}/${file}`;
       const localFile = `${localDirectory}/${file}`;
@@ -47,6 +46,28 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
       // Download the file
       await client.downloadTo(localFile, remoteFile);
       console.log(`Downloaded ${file} successfully`);
+
+      // Check if the downloaded file is photo.zip
+      if (file.startsWith('photo')) {
+        // Unzip the contents of photo.zip into the specified folder
+        const unzipDestination = env.NODE_PHOTO_PATH; // Specify the destination folder
+        fs.createReadStream(localFile)
+          .pipe(unzipper.Extract({ path: unzipDestination }))
+          .on('error', (err: any) => {
+            console.error(`Error unzipping ${file}: ${err}`);
+          })
+          .on('finish', () => {
+            console.log(`Unzipped ${file} successfully to ${unzipDestination}`);
+          });
+      } else {
+        if (fs.existsSync(localFile)) {
+          // Create replica copy of the file without currentDate
+          const fileNameWithoutDate = file.replace(currentDate, '');
+          const replicaLocalFile = `${localDirectory}/${fileNameWithoutDate}`;
+          fs.copyFileSync(localFile, replicaLocalFile); // Copy file
+          console.log(`Replica copy created for ${file}`);
+        }
+      }
     }
   } catch (error: any) {
     console.error(`Error: ${error.message}`);
@@ -63,8 +84,8 @@ export const getByDateSingle = async (req: Req, res: Res): Promise<any> => {
   // Remote directory path where files are located
   const remoteDirectory = '/';
 
-  // Local directory path to save downloaded files
-  const localDirectory = '/var/www/ftp-idx-app/tmp';
+  process.chdir(__dirname); // change to the directory of this file
+  const localDirectory = '../tmp';
 
   const filesToDownload = [`${fileType}${fileDate}.csv`];
 
