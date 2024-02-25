@@ -58,6 +58,24 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
           })
           .on('finish', () => {
             console.log(`Unzipped ${file} successfully to ${unzipDestination}`);
+            fs.readdir(unzipDestination, (err, files) => {
+              if (err) {
+                console.error(`Error reading directory ${unzipDestination}: ${err}`);
+                return;
+              }
+              // put .jpg extension to all files
+              files.forEach((extractedFile) => {
+                const oldPath = path.join(unzipDestination, extractedFile);
+                const newPath = path.join(unzipDestination, `${extractedFile}.jpg`);
+                fs.rename(oldPath, newPath, (err) => {
+                  if (err) {
+                    console.error(`Error renaming file ${oldPath}: ${err}`);
+                  } else {
+                    console.log(`File ${oldPath} renamed to ${newPath}`);
+                  }
+                });
+              });
+            });
           });
       } else {
         if (fs.existsSync(localFile)) {
