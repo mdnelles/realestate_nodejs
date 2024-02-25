@@ -104,7 +104,7 @@ export const and = async (req: Req, res: Res) => {
 // This function is used to retrieve all records from a table no search criteria
 export const all = async (req: Req, res: Res) => {
   try {
-    const { tableName, limit = 10, offset = 0, order = 'ASC', onlyFields = null } = req.body;
+    const { tableName, limit = 10, offset = 0, order = 'ASC', onlyFields = null, orderField } = req.body;
 
     const onlyFieldsArr = onlyFields ? onlyFields.split(',') : undefined;
     const numericLimit = parseInt(limit, 10);
@@ -112,9 +112,9 @@ export const all = async (req: Req, res: Res) => {
     const sqlQuery = `
       SELECT ${onlyFieldsArr ? onlyFieldsArr.join(', ') : '*'}
       FROM ${tableName}
-      ORDER BY id ${order}
-      LIMIT ${numericLimit}
-      OFFSET ${offset};`;
+      ${orderField ? `ORDER BY ${orderField} ${order}` : ''}
+      ${numericLimit ? `LIMIT ${numericLimit}` : ''}
+      ${offset ? `OFFSET ${offset}` : ''};`;
 
     // Execute the SQL query using Sequelize with replacements
     const data = await db.sequelize.query(sqlQuery, {
