@@ -53,6 +53,7 @@ app.post('/crud/create', create.create); // create a new record
 
 app.post('/crud/update/matching', verifyTokenAdmin, update.updateMatching); // update records matching a condition
 app.post('/crud/update/all', verifyTokenAdmin, update.updateAll); // update all records matching a condition
+app.post('/crud/updatebyid', verifyTokenAdmin, update.updateById); // update a record by id
 
 app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching); // delete records matching a condition
 app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable); // clear all records from a table
