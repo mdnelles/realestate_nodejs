@@ -12,6 +12,9 @@ export const create = async (req: Req, res: Res) => {
     const valuesArr = values ? (values.toString().includes(',') ? values.split(',') : [values]) : [];
     const paramsArr = params ? (params.toString().includes(',') ? params.split(',') : [params]) : [];
 
+    console.log(valuesArr);
+    console.log(paramsArr);
+
     // build the query with sanitization
     const sqlQuery = `INSERT INTO ${tableName.toLowerCase()} (${paramsArr}) VALUES (${valuesArr.map(() => '?').join(', ')});`;
     const data = await db.sequelize.query(sqlQuery, {
@@ -22,6 +25,6 @@ export const create = async (req: Req, res: Res) => {
     res.json({ status: 200, err: false, msg: 'Success', data });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.json({ status: 200, err: true, msg: error });
   }
 };
