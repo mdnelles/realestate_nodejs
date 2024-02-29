@@ -8,9 +8,11 @@ export const create = async (req: Req, res: Res) => {
   try {
     const { tableName, addFields, addValues } = req.body;
 
-    // Check if addFields or addValues are undefined, and assign empty arrays if they are
-    const addValuesArr = addValues ? (addValues.toString().includes(',') ? addValues.split(',') : [addValues]) : [];
-    const addFieldsArr = addFields ? (addFields.toString().includes(',') ? addFields.split(',') : [addFields]) : [];
+    // Check if addValues is undefined, and assign an empty array if it is
+    const addValuesArr = addValues || [];
+
+    // Check if addFields is undefined, and assign an empty array if it is
+    const addFieldsArr = addFields || [];
 
     console.log(addValuesArr);
     console.log(addFieldsArr);
