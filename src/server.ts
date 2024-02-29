@@ -49,7 +49,7 @@ app.post('/crud/search/like', search.like); // get records matching a condition
 app.post('/crud/search/and', search.and); // get records matching all conditions
 app.post('/crud/search/all', search.all); // get all records from a table
 
-app.post('/crud/create', create.create); // create a new record
+app.post('/crud/create', verifyTokenAdmin, create.create); // create a new record
 
 app.post('/crud/update/matching', verifyTokenAdmin, update.updateMatching); // update records matching a condition
 app.post('/crud/update/all', verifyTokenAdmin, update.updateAll); // update all records matching a condition
