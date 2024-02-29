@@ -13,7 +13,7 @@ export const create = async (req: Req, res: Res) => {
     const paramsArr = params ? (params.toString().includes(',') ? params.split(',') : [params]) : [];
 
     // build the query with sanitization
-    const sqlQuery = `INSERT INTO ${tableName} (${paramsArr}) VALUES (${valuesArr.map(() => '?').join(', ')});`;
+    const sqlQuery = `INSERT INTO ${tableName.toLowerCase()} (${paramsArr}) VALUES (${valuesArr.map(() => '?').join(', ')});`;
     const data = await db.sequelize.query(sqlQuery, {
       replacements: valuesArr,
       type: QueryTypes.INSERT,
