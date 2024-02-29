@@ -4,6 +4,7 @@ import { db } from '../../database/db';
 import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
 
 export const create = async (req: Req, res: Res) => {
+  console.log(req.body);
   try {
     const { tableName, params, values } = req.body;
     let valuesArr = values.toString().includes(',') ? values.split(',') : [values];
