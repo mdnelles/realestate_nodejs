@@ -45,3 +45,27 @@ export const getAllfilesFromDate = async (req: Req, res: Res): Promise<any> => {
     res.json({ status: 200, err: true, error });
   }
 };
+
+export const downloadFile = async (req: any, res: any): Promise<any> => {
+  try {
+    const { fileName } = req.body;
+    const folderPath = path.join(__dirname, '../tmp/');
+    const filePath = path.join(folderPath, fileName);
+
+    // Check if the file exists
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ status: 404, error: 'File not found' });
+    }
+
+    // Set headers
+    res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
+    res.setHeader('Content-type', 'application/octet-stream');
+
+    // Pipe the file stream to the response
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, error: 'Internal server error' });
+  }
+};
