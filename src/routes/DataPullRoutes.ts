@@ -132,4 +132,40 @@ export const getByDateSingle = async (req: Req, res: Res): Promise<any> => {
   }
 };
 
-//export const clearImagesFolder
+export const getByDateAll = async (req: Req, res: Res): Promise<any> => {
+  const { fileDate = eightDigitDate() } = req.body;
+  // Remote directory path where files are located
+  const remoteDirectory = '/';
+
+  process.chdir(__dirname); // change to the directory of this file
+  const localDirectory = '../tmp';
+
+  const filesToDownload = [
+    `agt${fileDate}.csv`,
+    `com${fileDate}.csv`,
+    `link${fileDate}.csv`,
+    `ofc${fileDate}.csv`,
+    `photo${fileDate}.zip`,
+    `res${fileDate}.csv`,
+  ];
+
+  const client: any = new ftp.Client();
+  try {
+    await client.access(ftpConfig);
+    console.log('FTP connected');
+
+    for (const file of filesToDownload) {
+      const remoteFile = `${remoteDirectory}/${file}`;
+      const localFile = `${localDirectory}/${file}`;
+
+      // Download the file
+      await client.downloadTo(localFile, remoteFile);
+      console.log(`Downloaded ${file} successfully`);
+    }
+  } catch (error: any) {
+    console.error(`Error: ${error.message}`);
+  } finally {
+    client.close();
+    console.log('FTP connection closed');
+  }
+};

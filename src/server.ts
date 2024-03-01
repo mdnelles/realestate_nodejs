@@ -17,6 +17,7 @@ import * as update from './routes/crud/UpdateRoutes';
 import * as del from './routes/crud/DeleteRoutes';
 import * as test from './routes/TestRoute';
 import * as data from './routes/DataPullRoutes';
+import * as files from './routes/FileRoutes';
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const app = express();
@@ -45,23 +46,23 @@ app.post('/users_delete', verifyTokenAdmin, users.del); // delete a user
 app.post('/users_list', verifyTokenAdmin, users.list); // get all users
 app.post('/users_login', users.login); // login
 
+app.post('/files/readFolderContents', verifyTokenAdmin, files.readFolderContents); // read all files in tmp folder
+app.post('/files/removeFile', verifyTokenAdmin, files.removeFile); // remove a file
+app.post('/files/getAllfilesFromDate', verifyTokenAdmin, files.getAllfilesFromDate); // get all files from a date
+
 app.post('/crud/search/like', search.like); // get records matching a condition
 app.post('/crud/search/and', search.and); // get records matching all conditions
 app.post('/crud/search/all', search.all); // get all records from a table
-
 app.post('/crud/create', verifyTokenAdmin, create.create); // create a new record
-
 app.post('/crud/update/matching', verifyTokenAdmin, update.updateMatching); // update records matching a condition
 app.post('/crud/update/all', verifyTokenAdmin, update.updateAll); // update all records matching a condition
 app.post('/crud/updatebyid', verifyTokenAdmin, update.updateById); // update a record by id
-
 app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching); // delete records matching a condition
 app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable); // clear all records from a table
 
-app.get('/data/getNewestAll', data.getNewestAll); // get all newest files from FTP server
-
-app.get('/test', test.test);
-app.get('/test2', test.test2);
+app.post('/data/getNewestAll', verifyTokenAdmin, data.getNewestAll); // get all newest files from FTP server
+app.post('/data/getByDateSingle', verifyTokenAdmin, data.getByDateSingle); // get all files from FTP server by date
+app.post('/data/getByDateAll', verifyTokenAdmin, data.getByDateAll); // get all files from FTP server by date
 
 if (env.NODE_ENV === 'production') {
   // set static folder
