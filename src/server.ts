@@ -49,7 +49,7 @@ app.post('/users_login', users.login); // login
 app.post('/files/readFolderContents', verifyTokenAdmin, files.readFolderContents); // read all files in tmp folder
 app.post('/files/removeFile', verifyTokenAdmin, files.removeFile); // remove a file
 app.post('/files/getAllfilesFromDate', verifyTokenAdmin, files.getAllfilesFromDate); // get all files from a date
-app.post('/files/downloadFile', verifyTokenAdmin, files.downloadFile); // download a file
+app.post('/files/downloadFile', verifyTokenAdmin); // download a file
 
 app.post('/crud/search/like', search.like); // get records matching a condition
 app.post('/crud/search/and', search.and); // get records matching all conditions
