@@ -7,7 +7,6 @@ export const Listings: any = db.sequelize.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
     },
     street_number: {
       type: Sequelize.STRING(255),

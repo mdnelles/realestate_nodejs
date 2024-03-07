@@ -1,13 +1,15 @@
 import path from 'path';
 import * as fs from 'fs';
-import csv from 'csv-parser';
-import { Agents } from '../database/models/agents';
-import { Companies } from '../database/models/companies';
-import { Links } from '../database/models/links';
-import { Listings } from '../database/models/listings';
-import { Offices } from '../database/models/offices';
+const env = require('dotenv').config().parsed;
+// import csv from 'csv-parser';
+// import { Agents } from '../database/models/agents';
+// import { Companies } from '../database/models/companies';
+// import { Links } from '../database/models/links';
+// import { Listings } from '../database/models/listings';
+// import { Offices } from '../database/models/offices';
 
 import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
+import { Images } from '../database/models/images';
 
 // read all files in tmp folder
 export const readFolderContents = async (req: Req, res: Res): Promise<any> => {
@@ -70,18 +72,20 @@ export const downloadFile = async (req: any, res: any): Promise<any> => {
   }
 };
 
-// export const associateImagesToDatabase = async (req: any, res: any): Promise<any> => {
-//   try {
-//     const unzipDestination = env.NODE_PHOTO_PATH;
-//     // read all the file names in the directory
-//     fs.readdir(unzipDestination, (err, files) => {
-//       if (err) {
-//         console.error(`Error reading directory ${unzipDestination}: ${err}`);
-//         return;
-//       }
+export const addImagesToDatabase = async (req: any, res: any): Promise<any> => {
+  try {
+    const unzipDestination = env.NODE_PHOTO_PATH;
+    // read all the file names in the directory
+    const files = fs.readdirSync(unzipDestination);
 
-//       files.forEach((extractedFile) => {
-//         // same file name 00004B62.L22.jpg
-//         // itterate throughthe files and UPSERT the file name to the database
+    // loop through the files upsert them into the table "images"
+    files.forEach((file) => {
+      Images.upsert({ imageName: file });
+    });
 
-//     });
+    res.json({ status: 200, err: false, msg: 'Success' });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: 200, err: true, error });
+  }
+};

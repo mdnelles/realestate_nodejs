@@ -27,7 +27,7 @@ export const loadAgents = async (req: Req, res: Res): Promise<any> => {
         for (const result of results) {
           console.log(result.first_name);
           try {
-            const agent = await Agents.create({
+            const agent = await Agents.upsert({
               first_name: result.first_name,
               last_name: result.last_name,
               license_number: result.license_number,
@@ -70,7 +70,7 @@ export const loadCom = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
 
           // populate the company table
-          const company = await Companies.create({
+          const company = await Companies.upsert({
             street_number: result.street_number,
             street_name: result.street_name,
             unit_number: result.unit_number,
@@ -165,7 +165,7 @@ export const loadLinks = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
 
           // populate the company table
-          const link = await Links.create({
+          const link = await Links.upsert({
             link_id: result.link_id,
             listing_id: result.listing_id,
             link_type: result.link_type,
@@ -199,7 +199,7 @@ export const loadListings = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
 
           // populate the company table
-          const listing = await Listings.create({
+          const listing = await Listings.upsert({
             id: result.id,
             street_number: result.street_number,
             street_name: result.street_name,
@@ -301,7 +301,7 @@ export const loadOffices = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
 
           // populate the company table
-          const office = await Offices.create({
+          const office = await Offices.upsert({
             name: result.name,
             address_line_1: result.address_line_1,
             license_number: result.license_number,
