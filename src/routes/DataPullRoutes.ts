@@ -65,6 +65,8 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
               }
               // put .jpg extension to all files
               files.forEach((extractedFile) => {
+                // only if extracted file does not already have .jpg extension
+                if (extractedFile.endsWith('.jpg')) return;
                 const oldPath = path.join(unzipDestination, extractedFile);
                 const newPath = path.join(unzipDestination, `${extractedFile}.jpg`);
                 fs.rename(oldPath, newPath, (err) => {
