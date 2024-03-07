@@ -18,6 +18,6 @@ export const Images: any = db.sequelize.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
   },
 );
