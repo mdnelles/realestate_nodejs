@@ -200,6 +200,7 @@ export const loadListings = async (req: Req, res: Res): Promise<any> => {
 
           // populate the company table
           const listing = await Listings.create({
+            id: result.id,
             street_number: result.street_number,
             street_name: result.street_name,
             unit_number: result.unit_number,

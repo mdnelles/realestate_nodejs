@@ -69,3 +69,19 @@ export const downloadFile = async (req: any, res: any): Promise<any> => {
     res.status(500).json({ status: 500, error: 'Internal server error' });
   }
 };
+
+// export const associateImagesToDatabase = async (req: any, res: any): Promise<any> => {
+//   try {
+//     const unzipDestination = env.NODE_PHOTO_PATH;
+//     // read all the file names in the directory
+//     fs.readdir(unzipDestination, (err, files) => {
+//       if (err) {
+//         console.error(`Error reading directory ${unzipDestination}: ${err}`);
+//         return;
+//       }
+
+//       files.forEach((extractedFile) => {
+//         // same file name 00004B62.L22.jpg
+//         // itterate throughthe files and UPSERT the file name to the database
+
+//     });
