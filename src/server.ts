@@ -34,11 +34,11 @@ app.use(jsonParser);
 app.use(urlencodedParser);
 app.use(helmet());
 
-app.post('/csv/loadAgents', csv.loadAgents); // load agents
-app.post('/csv/loadCompanies', csv.loadCom); // load companies
-app.post('/csv/loadLinks', csv.loadLinks); // load links
-app.post('/csv/loadListings', csv.loadListings); // load listings
-app.post('/csv/loadOffices', csv.loadOffices); // load offices
+app.post('/csv/loadAgents', verifyTokenAdmin, csv.loadAgents); // load agents
+app.post('/csv/loadCompanies', verifyTokenAdmin, csv.loadCom); // load companies
+app.post('/csv/loadLinks', verifyTokenAdmin, csv.loadLinks); // load links
+app.post('/csv/loadListings', verifyTokenAdmin, csv.loadListings); // load listings
+app.post('/csv/loadOffices', verifyTokenAdmin, csv.loadOffices); // load offices
 
 app.post('/users_register', users.register); // register a new user
 app.post('/users_edit', verifyTokenAdmin, users.register); // edit a user
