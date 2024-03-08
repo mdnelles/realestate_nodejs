@@ -16,7 +16,9 @@ import type { Request as Req, Response as Res, NextFunction as Next } from 'expr
 import { eightDigitDate } from '../utilities/general';
 import { Images } from '../database/models/images';
 
-export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
+export const getAll = async (req: Req, res: Res): Promise<any> => {
+  // current dateprovided YYYYMMDD - if not provided, use today's date
+  const { fileDate = new Date().toISOString().slice(0, 10).replace(/-/g, '') } = req.body;
   // Remote directory path where files are located
   const remoteDirectory = '/';
   const unzipDestination = env.NODE_PHOTO_PATH; // Specify the destination folder
@@ -26,14 +28,14 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
   const localDirectory = '../tmp'; // env.NODE_FTP_LOCAL_DIR;
 
   // List of files to download
-  const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+
   const filesToDownload = [
-    `agt${currentDate}.csv`,
-    `com${currentDate}.csv`,
-    `link${currentDate}.csv`,
-    `ofc${currentDate}.csv`,
-    `photo${currentDate}.zip`,
-    `res${currentDate}.csv`,
+    `agt${fileDate}.csv`,
+    `com${fileDate}.csv`,
+    `link${fileDate}.csv`,
+    `ofc${fileDate}.csv`,
+    `photo${fileDate}.zip`,
+    `res${fileDate}.csv`,
   ];
 
   const client: any = new ftp.Client();
@@ -82,8 +84,8 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
           });
       } else {
         if (fs.existsSync(localFile)) {
-          // Create replica copy of the file without currentDate
-          const fileNameWithoutDate = file.replace(currentDate, '');
+          // Create replica copy of the file without fileDate
+          const fileNameWithoutDate = file.replace(fileDate, '');
           const replicaLocalFile = `${localDirectory}/${fileNameWithoutDate}`;
           fs.copyFileSync(localFile, replicaLocalFile); // Copy file
           console.log(`Replica copy created for ${file}`);
