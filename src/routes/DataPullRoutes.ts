@@ -2,7 +2,6 @@
 import * as ftp from 'basic-ftp';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as unzipper from 'unzipper';
 import * as JSZip from 'jszip';
 
 const env = require('dotenv').config().parsed;
@@ -19,6 +18,7 @@ import { eightDigitDate } from '../utilities/general';
 export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
   // Remote directory path where files are located
   const remoteDirectory = '/';
+  const unzipDestination = env.NODE_PHOTO_PATH; // Specify the destination folder
 
   // Local directory path to save downloaded files
   process.chdir(__dirname); // change to the directory of this file
@@ -38,6 +38,7 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
   const client: any = new ftp.Client();
   try {
     await client.access(ftpConfig);
+
     console.log('FTP connected');
 
     for (const file of filesToDownload) {
@@ -51,7 +52,7 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
       // Check if the downloaded file is photo.zip
       if (file.startsWith('photo')) {
         // Unzip the contents of photo.zip into the specified folder
-        const unzipDestination = env.NODE_PHOTO_PATH; // Specify the destination folder
+
         fs.promises
           .readFile(localFile)
           .then((data) => {
@@ -69,21 +70,6 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
                   return fs.promises.writeFile(filePath, content);
                 }),
               );
-
-              // Rename file if it doesn't have a .jpg extension
-              if (!fileName.endsWith('.jpg')) {
-                const newFilePath = path.join(unzipDestination, fileName + '.jpg');
-                promises.push(
-                  fs.promises
-                    .rename(filePath, newFilePath)
-                    .then(() => {
-                      console.log(`File ${filePath} renamed to ${newFilePath}`);
-                    })
-                    .catch((err) => {
-                      console.error(`Error renaming file ${filePath}: ${err}`);
-                    }),
-                );
-              }
             });
             return Promise.all(promises);
           })
@@ -108,6 +94,15 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
   } finally {
     client.close();
     console.log('FTP connection closed');
+    // read all the file names in the directory and add ".jpg" to the end of the file name if it is not already there
+    setTimeout(() => {
+      const files = fs.readdirSync(unzipDestination);
+      files.forEach((file) => {
+        if (!file.includes('.jpg')) {
+          fs.renameSync(`${unzipDestination}/${file}`, `${unzipDestination}/${file}.jpg`);
+        }
+      });
+    }, 500);
     // list the file name from the array in the msg
     res.json({ status: 200, err: false, msg: `Files downloaded successfully ${filesToDownload}`, localDirectory });
   }
