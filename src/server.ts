@@ -51,6 +51,7 @@ app.post('/files/removeFile', verifyTokenAdmin, files.removeFile); // remove a f
 app.post('/files/getAllfilesFromDate', verifyTokenAdmin, files.getAllfilesFromDate); // get all files from a date
 app.post('/files/downloadFile', verifyTokenAdmin, files.downloadFile); // download a file
 app.post('/files/updateImages', verifyTokenAdmin, files.addImagesToDatabase); // upload a file
+app.post('/files/removeAllFiles', verifyTokenAdmin, files.removeAllFiles); // remove all files
 
 app.post('/crud/search/like', search.like); // get records matching a condition
 app.post('/crud/search/and', search.and); // get records matching all conditions
