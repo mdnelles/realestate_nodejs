@@ -36,6 +36,20 @@ export const removeFile = async (req: Req, res: Res): Promise<any> => {
   }
 };
 
+export const removeAllFiles = async (req: Req, res: Res): Promise<any> => {
+  try {
+    const folderPath = path.join(__dirname, '../tmp/');
+    const files = fs.readdirSync(folderPath);
+    files.forEach((file) => {
+      fs.unlinkSync(folderPath + file);
+    });
+    res.json({ status: 200, err: false, msg: 'Success' });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: 200, err: true, error });
+  }
+};
+
 export const getAllfilesFromDate = async (req: Req, res: Res): Promise<any> => {
   try {
     const { date } = req.body;

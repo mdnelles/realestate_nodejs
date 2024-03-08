@@ -18,7 +18,7 @@ import { Images } from '../database/models/images';
 
 export const getAll = async (req: Req, res: Res): Promise<any> => {
   // current dateprovided YYYYMMDD - if not provided, use today's date
-  const { fileDate = new Date().toISOString().slice(0, 10).replace(/-/g, '') } = req.body;
+  const { fileDate = new Date().toISOString().slice(0, 10).replace(/-/g, ''), csvToo = true } = req.body;
   // Remote directory path where files are located
   const remoteDirectory = '/';
   const unzipDestination = env.NODE_PHOTO_PATH; // Specify the destination folder
@@ -29,14 +29,16 @@ export const getAll = async (req: Req, res: Res): Promise<any> => {
 
   // List of files to download
 
-  const filesToDownload = [
-    `agt${fileDate}.csv`,
-    `com${fileDate}.csv`,
-    `link${fileDate}.csv`,
-    `ofc${fileDate}.csv`,
-    `photo${fileDate}.zip`,
-    `res${fileDate}.csv`,
-  ];
+  const filesToDownload = csvToo
+    ? [
+        `agt${fileDate}.csv`,
+        `com${fileDate}.csv`,
+        `link${fileDate}.csv`,
+        `ofc${fileDate}.csv`,
+        `photo${fileDate}.zip`,
+        `res${fileDate}.csv`,
+      ]
+    : [`photo${fileDate}.zip`];
 
   const client: any = new ftp.Client();
   try {
