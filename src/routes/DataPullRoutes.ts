@@ -3,6 +3,7 @@ import * as ftp from 'basic-ftp';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as unzipper from 'unzipper';
+import * as JSZip from 'jszip';
 
 const env = require('dotenv').config().parsed;
 // FTP server credentials
@@ -51,33 +52,46 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
       if (file.startsWith('photo')) {
         // Unzip the contents of photo.zip into the specified folder
         const unzipDestination = env.NODE_PHOTO_PATH; // Specify the destination folder
-        fs.createReadStream(localFile)
-          .pipe(unzipper.Extract({ path: unzipDestination }))
-          .on('error', (err: any) => {
-            console.error(`Error unzipping ${file}: ${err}`);
+        fs.promises
+          .readFile(localFile)
+          .then((data) => {
+            return JSZip.loadAsync(data);
           })
-          .on('finish', () => {
-            console.log(`Unzipped ${file} successfully to ${unzipDestination}`);
-            fs.readdir(unzipDestination, (err, files) => {
-              if (err) {
-                console.error(`Error reading directory ${unzipDestination}: ${err}`);
-                return;
+          .then((zip) => {
+            const promises: any[] = [];
+            zip.forEach((relativePath, zipEntry) => {
+              const fileName = path.basename(zipEntry.name);
+              const filePath = path.join(unzipDestination, fileName);
+
+              // Extract file
+              promises.push(
+                zipEntry.async('nodebuffer').then((content) => {
+                  return fs.promises.writeFile(filePath, content);
+                }),
+              );
+
+              // Rename file if it doesn't have a .jpg extension
+              if (!fileName.endsWith('.jpg')) {
+                const newFilePath = path.join(unzipDestination, fileName + '.jpg');
+                promises.push(
+                  fs.promises
+                    .rename(filePath, newFilePath)
+                    .then(() => {
+                      console.log(`File ${filePath} renamed to ${newFilePath}`);
+                    })
+                    .catch((err) => {
+                      console.error(`Error renaming file ${filePath}: ${err}`);
+                    }),
+                );
               }
-              // put .jpg extension to all files
-              files.forEach((extractedFile) => {
-                // only if extracted file does not already have .jpg extension
-                if (extractedFile.endsWith('.jpg')) return;
-                const oldPath = path.join(unzipDestination, extractedFile);
-                const newPath = path.join(unzipDestination, `${extractedFile}.jpg`);
-                fs.rename(oldPath, newPath, (err) => {
-                  if (err) {
-                    console.error(`Error renaming file ${oldPath}: ${err}`);
-                  } else {
-                    console.log(`File ${oldPath} renamed to ${newPath}`);
-                  }
-                });
-              });
             });
+            return Promise.all(promises);
+          })
+          .then(() => {
+            console.log(`Unzipped ${file} successfully to ${unzipDestination}`);
+          })
+          .catch((err) => {
+            console.error(`Error unzipping ${file}: ${err}`);
           });
       } else {
         if (fs.existsSync(localFile)) {
