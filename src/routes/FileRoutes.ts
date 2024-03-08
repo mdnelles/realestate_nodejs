@@ -10,6 +10,7 @@ const env = require('dotenv').config().parsed;
 
 import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
 import { Images } from '../database/models/images';
+import { Op } from 'sequelize';
 
 // read all files in tmp folder
 export const readFolderContents = async (req: Req, res: Res): Promise<any> => {
@@ -83,7 +84,10 @@ export const addImagesToDatabase = async (req: any, res: any): Promise<any> => {
       Images.upsert({ imageName: file });
     });
 
-    res.json({ status: 200, err: false, msg: 'Success' });
+    // delete from the database table "images" if the file name contains ".jpg.jpg"
+    Images.destroy({ where: { imageName: { [Op.like]: '%.jpg.jpg' } } });
+
+    res.json({ status: 200, err: false, msg: 'Success Images loaded' });
   } catch (error) {
     console.log(error);
     res.json({ status: 200, err: true, error });
