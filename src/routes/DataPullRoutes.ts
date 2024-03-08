@@ -14,6 +14,7 @@ const ftpConfig = {
 
 import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
 import { eightDigitDate } from '../utilities/general';
+import { Images } from '../database/models/images';
 
 export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
   // Remote directory path where files are located
@@ -100,6 +101,8 @@ export const getNewestAll = async (req: Req, res: Res): Promise<any> => {
       files.forEach((file) => {
         if (!file.includes('.jpg')) {
           fs.renameSync(`${unzipDestination}/${file}`, `${unzipDestination}/${file}.jpg`);
+          // add image record to the database
+          Images.upsert({ imageName: `${file}.jpg` });
         }
       });
     }, 500);
