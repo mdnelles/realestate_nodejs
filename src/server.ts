@@ -62,7 +62,7 @@ app.post('/crud/updatebyid', verifyTokenAdmin, update.updateById); // update a r
 app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching); // delete records matching a condition
 app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable); // clear all records from a table
 
-app.post('/data/getNewestAll', verifyTokenAdmin, data.getNewestAll); // get all newest files from FTP server
+app.post('/data/getAll', verifyTokenAdmin, data.getAll); // get all newest files from FTP server
 app.post('/data/getByDateSingle', verifyTokenAdmin, data.getByDateSingle); // get all files from FTP server by date
 app.post('/data/getByDateAll', verifyTokenAdmin, data.getByDateAll); // get all files from FTP server by date
 
