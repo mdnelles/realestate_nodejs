@@ -7,7 +7,7 @@ import { Request as Req, Response as Res } from 'express';
 
 export const register = async (req: Req, res: Res): Promise<any> => {
   var today = new Date();
-  const { first_name, last_name, email, password, last_login, createdAt, updatedAt } = req.body;
+  const { first_name, last_name, email, password, agent_id = 0, last_login, createdAt, updatedAt } = req.body;
 
   const userData = {
     first_name,
@@ -15,6 +15,7 @@ export const register = async (req: Req, res: Res): Promise<any> => {
     email,
     password,
     userLevel: '5', // '1' highest '5' lowest
+    agent_id,
     last_login,
     createdAt,
     updatedAt,
