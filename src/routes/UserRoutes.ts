@@ -14,7 +14,7 @@ export const register = async (req: Req, res: Res): Promise<any> => {
     last_name,
     email,
     password,
-    admin: '0', // '0' for user, '1' for admin
+    userLevel: '5', // '1' highest '5' lowest
     last_login,
     createdAt,
     updatedAt,
@@ -45,9 +45,9 @@ export const register = async (req: Req, res: Res): Promise<any> => {
 };
 
 export const edit = async (req: Req, res: Res): Promise<any> => {
-  const { first_name, last_name, email } = req.body;
+  const { first_name, last_name, password } = req.body;
   try {
-    let user = await Users.update({ first_name, last_name, email }, { where: { id: req.body.id } }, { limit: 1 });
+    let user = await Users.update({ first_name, last_name, password }, { where: { id: req.body.id } }, { limit: 1 });
     res.json({ status: 200, err: false, msg: 'user exists', user });
   } catch (error) {
     res.json({ status: 200, err: true, error });

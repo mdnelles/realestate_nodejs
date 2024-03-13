@@ -21,8 +21,12 @@ export const Users = db.sequelize.define(
     last_name: {
       type: Sequelize.STRING,
     },
-    admin: {
+    userLevel: {
+      type: Sequelize.STRING,
+    },
+    agent_id: {
       type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     last_login: {
       type: Sequelize.DATE,
