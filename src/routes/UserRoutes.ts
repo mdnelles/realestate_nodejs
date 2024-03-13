@@ -7,15 +7,18 @@ import { Request as Req, Response as Res } from 'express';
 
 export const register = async (req: Req, res: Res): Promise<any> => {
   var today = new Date();
-  const { uuid, first_name, last_name, email, password } = req.body;
+  const { first_name, last_name, email, password, last_login, createdAt, updatedAt } = req.body;
 
   const userData = {
-    uuid,
     first_name,
     last_name,
     email,
     password,
-    created: today,
+    admin: '0', // '0' for user, '1' for admin
+    last_login,
+    createdAt,
+    updatedAt,
+    isDeleted: 0,
   };
 
   try {
