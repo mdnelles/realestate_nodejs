@@ -18,7 +18,7 @@ export const Listings: any = db.sequelize.define(
       type: Sequelize.STRING(255),
     },
     price_current: {
-      type: Sequelize.STRING,
+      type: Sequelize.DOUBLE,
     },
     price_current_rent: {
       type: Sequelize.STRING,
@@ -198,7 +198,7 @@ export const Listings: any = db.sequelize.define(
       type: Sequelize.TEXT,
     },
     listing_photo_count: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     building_name: {
       type: Sequelize.STRING(255),
@@ -234,6 +234,13 @@ export const Listings: any = db.sequelize.define(
     updatedAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
+    },
+    featureObj: {
+      type: Sequelize.STRING,
+    },
+    isAuto: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     isDeleted: {
       type: Sequelize.INTEGER,

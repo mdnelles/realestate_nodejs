@@ -15,7 +15,6 @@ import * as search from './routes/crud/SearchRoutes';
 import * as create from './routes/crud/CreateRoutes';
 import * as update from './routes/crud/UpdateRoutes';
 import * as del from './routes/crud/DeleteRoutes';
-import * as test from './routes/TestRoute';
 import * as data from './routes/DataPullRoutes';
 import * as files from './routes/FileRoutes';
 

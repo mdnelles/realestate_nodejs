@@ -14,3 +14,4 @@ dbconfig.ts
 
 .env
 .mysql-data
+shell_scripts

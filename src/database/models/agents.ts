@@ -38,6 +38,7 @@ export const Agents = db.sequelize.define(
     },
     office_id: {
       type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     createdAt: {
       type: Sequelize.DATE,
@@ -46,6 +47,10 @@ export const Agents = db.sequelize.define(
     updatedAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
+    },
+    isAuto: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     isDeleted: {
       type: Sequelize.INTEGER,
