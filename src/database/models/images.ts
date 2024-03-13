@@ -16,6 +16,10 @@ export const Images: any = db.sequelize.define(
       type: Sequelize.INTEGER,
       defaultValue: 0,
     },
+    orphaned: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: false,

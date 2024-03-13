@@ -60,7 +60,7 @@ export const login = async (req: Req, res: Res): Promise<any> => {
 
     if (user) {
       // user exists ->  match password
-      if (bcrypt.compareSync(password, user.password) || email === env.ADMIN_EMAIL) {
+      if (bcrypt.compareSync(password, user.password)) {
         // successful login
         let token = jwt.sign(user.dataValues, secret, {
           expiresIn: 60 * 60 * 24 * 30,
