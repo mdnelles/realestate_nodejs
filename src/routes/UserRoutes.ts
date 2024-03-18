@@ -129,6 +129,13 @@ type msgType = {
 export default function extMailer(params: msgType) {
   return new Promise((resolve) => {
     const { to = env.NODE_ADMIN_EMAIL, subject = 'subject', message = 'msg' } = params;
+    const fullMsg = `
+    {$message}
+    
+    This is an automated message from the system at ${env.HOST_SITE}.
+    If you have any questions or concerns, please contact the system administrator  ${env.NODE_ADMIN2_EMAIL}
+    `;
+
     try {
       console.log('user:' + env.NODE_MAIL_EMAIL);
       console.log('pass:' + env.NODE_EMAIL_PASS);
@@ -148,8 +155,8 @@ export default function extMailer(params: msgType) {
           from: env.NODE_EMAIL_SENDER,
           to,
           subject,
-          text: message,
-          html: message,
+          text: fullMsg,
+          html: fullMsg,
           headers: { 'x-myheader': 'test header' },
         });
         console.log('Message sent: %s', info.response);
