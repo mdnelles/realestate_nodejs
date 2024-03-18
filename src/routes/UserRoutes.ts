@@ -130,7 +130,7 @@ export default function extMailer(params: msgType) {
   return new Promise((resolve) => {
     const { to = env.NODE_ADMIN_EMAIL, subject = 'subject', message = 'msg' } = params;
     const fullMsg = `
-    {$message}
+    ${message}
     
     This is an automated message from the system at ${env.HOST_SITE}.
     If you have any questions or concerns, please contact the system administrator  ${env.NODE_ADMIN2_EMAIL}
