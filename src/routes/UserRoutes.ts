@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 /* eslint-disable */
 const env = require('dotenv').config().parsed;
 import { Users } from '../database/models/users';
@@ -102,3 +103,62 @@ export const list = async (req: Req, res: Res): Promise<any> => {
     res.json({ status: 201, err: true, msg: '', error });
   }
 };
+
+export const mail = async (req: any, res: any): Promise<any> => {
+  const { subject = 'mailfor', message = 'default message' } = req.body;
+  try {
+    const params = {
+      to: env.NODE_ADMIN_EMAIL,
+      subject,
+      message,
+    };
+    await extMailer(params);
+
+    res.json({ status: 201, err: false, msg: 'ok mail sent' });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: 201, err: true, msg: 'Error', error });
+  }
+};
+
+type msgType = {
+  to: string;
+  subject: string;
+  message: string;
+};
+export default function extMailer(params: msgType) {
+  return new Promise((resolve) => {
+    const { to = env.NODE_ADMIN_EMAIL, subject = 'subject', message = 'msg' } = params;
+    try {
+      console.log('user:' + env.NODE_MAIL_EMAIL);
+      console.log('pass:' + env.NODE_EMAIL_PASS);
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.ionos.com' || env.NODE_MAIL_HOST,
+        port: 587, // or 465 for SSL
+        secure: false, // true for 465, false for other ports
+        requireTLS: true,
+        auth: {
+          user: env.NODE_MAIL_EMAIL,
+          pass: env.NODE_EMAIL_PASS,
+        },
+        logger: true,
+      });
+      (async () => {
+        const info = await transporter.sendMail({
+          from: env.NODE_EMAIL_SENDER,
+          to,
+          subject,
+          text: message,
+          html: message,
+          headers: { 'x-myheader': 'test header' },
+        });
+        console.log('Message sent: %s', info.response);
+        resolve(true);
+      })();
+    } catch (error) {
+      resolve(false);
+    }
+  });
+
+  //setTimeout(shutDown, 5000); // 10 seconds
+}
