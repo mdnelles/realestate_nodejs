@@ -132,7 +132,7 @@ export default function extMailer(params: msgType) {
     const fullMsg = `
     ${message}
     
-    This is an automated message from the system at ${env.HOST_SITE}.
+    This is an automated message from the system at ${env.NODE_HOST_SITE}.
     If you have any questions or concerns, please contact the system administrator  ${env.NODE_ADMIN2_EMAIL}
     `;
 
