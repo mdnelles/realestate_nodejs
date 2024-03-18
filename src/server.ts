@@ -66,6 +66,8 @@ app.post('/data/getAll', verifyTokenAdmin, data.getAll); // get all newest files
 app.post('/data/getByDateSingle', verifyTokenAdmin, data.getByDateSingle); // get all files from FTP server by date
 app.post('/data/getByDateAll', verifyTokenAdmin, data.getByDateAll); // get all files from FTP server by date
 
+app.post('/mail', verifyTokenAdmin, users.mail); // get all files from FTP server by date
+
 if (env.NODE_ENV === 'production') {
   // set static folder
   app.use(express.static('client/build'));
