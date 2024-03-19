@@ -28,6 +28,7 @@ export const loadAgents = async (req: Req, res: Res): Promise<any> => {
           console.log(result.first_name);
           try {
             const agent = await Agents.upsert({
+              id: result.id,
               first_name: result.first_name,
               last_name: result.last_name,
               license_number: result.license_number,
@@ -38,6 +39,7 @@ export const loadAgents = async (req: Req, res: Res): Promise<any> => {
               email: result.email,
               url: result.url,
               office_id: result.office_id,
+              isAuto: 1,
             });
             console.log(`Agent ${agent.id} created`);
           } catch (error: any) {

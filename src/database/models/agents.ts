@@ -5,9 +5,7 @@ export const Agents = db.sequelize.define(
   'agents',
   {
     id: {
-      // type: Sequelize.INTEGER,
-      type: Sequelize.STRING,
-      primaryKey: true,
+      type: Sequelize.INTEGER,
       // autoIncrement: true,
     },
     first_name: {
@@ -33,6 +31,7 @@ export const Agents = db.sequelize.define(
     },
     email: {
       type: Sequelize.STRING,
+      primaryKey: true,
     },
     password: {
       type: Sequelize.STRING,
