@@ -152,7 +152,7 @@ export default function extMailer(params: msgType) {
       });
       (async () => {
         const info = await transporter.sendMail({
-          from: env.NODE_EMAIL_SENDER,
+          from: `"Parec Mail Server" <${env.NODE_EMAIL_SENDER}>`,
           to,
           subject,
           text: fullMsg,
