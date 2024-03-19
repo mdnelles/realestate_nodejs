@@ -6,6 +6,7 @@ const env = require('dotenv').config().parsed;
 import { Users } from '../database/models/users';
 import { Request as Req, Response as Res } from 'express';
 import { Agents } from '../database/models/agents';
+import { generatePassword } from '../utilities/general';
 
 export const register = async (req: Req, res: Res): Promise<any> => {
   var today = new Date();
@@ -108,6 +109,24 @@ export const list = async (req: Req, res: Res): Promise<any> => {
   }
 };
 
+export const resetPassword = async (req: Req, res: Res): Promise<any> => {
+  const { email } = req.body;
+  const password = generatePassword(10);
+  try {
+    let agent = await Agents.findOne({ where: { email } });
+    if (agent) {
+      bcrypt.hash(password, 10, async (err: any, hash: any) => {
+        await Agents.update({ password: hash }, { where: { email } });
+        res.json({ status: 200, err: false, msg: 'New Password has been sent to you', severity: 'success' });
+      });
+      extMailer({ to: email, subject: 'Password Reset', message: `Your new password is ${password}` });
+    } else {
+      res.json({ status: 200, err: true, msg: `No account exists with ${email}`, severity: 'error' });
+    }
+  } catch (error) {
+    res.json({ status: 201, err: true, msg: 'Failed to reset password', severity: 'error', error });
+  }
+};
 export const mail = async (req: any, res: any): Promise<any> => {
   const { subject = 'mailfor', message = 'default message' } = req.body;
   try {
