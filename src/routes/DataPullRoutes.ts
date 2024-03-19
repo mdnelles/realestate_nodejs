@@ -15,7 +15,7 @@ const ftpConfig = {
 import type { Request as Req, Response as Res, NextFunction as Next } from 'express';
 import { eightDigitDate } from '../utilities/general';
 import { Images } from '../database/models/images';
-import { loadAgents } from './CsvRoutes';
+import { loadAgents, loadCom, loadLinks, loadListings, loadOffices } from './CsvRoutes';
 
 export const getAll = async (req: Req, res: Res): Promise<any> => {
   // current dateprovided YYYYMMDD - if not provided, use today's date
@@ -112,9 +112,14 @@ export const getAll = async (req: Req, res: Res): Promise<any> => {
       });
     }, 500);
     // list the file name from the array in the msg
+    await loadAgents(req, res);
+    await loadCom(req, res);
+    await loadLinks(req, res);
+    await loadListings(req, res);
+    await loadOffices(req, res);
+
     res.json({ status: 200, err: false, msg: `Files downloaded successfully ${filesToDownload}`, localDirectory });
   }
-  console.log(await loadAgents(req, res));
 };
 
 export const getByDateSingle = async (req: Req, res: Res): Promise<any> => {
