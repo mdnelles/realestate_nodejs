@@ -43,6 +43,10 @@ export const Agents = db.sequelize.define(
       type: Sequelize.INTEGER,
       defaultValue: 0,
     },
+    accessLevel: {
+      type: Sequelize.INTEGER,
+      defaultValue: 9,
+    },
     createdAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,

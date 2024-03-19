@@ -9,7 +9,7 @@ const env = require('dotenv').config().parsed;
 
 import { verifyTokenAdmin } from './routes/Token';
 
-import * as users from './routes/UserRoutes';
+import * as agents from './routes/AgentsRoutes';
 import * as csv from './routes/CsvRoutes';
 import * as search from './routes/crud/SearchRoutes';
 import * as create from './routes/crud/CreateRoutes';
@@ -39,11 +39,11 @@ app.post('/csv/loadLinks', verifyTokenAdmin, csv.loadLinks); // load links
 app.post('/csv/loadListings', verifyTokenAdmin, csv.loadListings); // load listings
 app.post('/csv/loadOffices', verifyTokenAdmin, csv.loadOffices); // load offices
 
-app.post('/users_register', users.register); // register a new user
-app.post('/users_edit', verifyTokenAdmin, users.register); // edit a user
-app.post('/users_delete', verifyTokenAdmin, users.del); // delete a user
-app.post('/users_list', verifyTokenAdmin, users.list); // get all users
-app.post('/users_login', users.login); // login
+app.post('/agents_register', agents.register); // register a new user
+app.post('/agents_edit', verifyTokenAdmin, agents.register); // edit a user
+app.post('/agents_delete', verifyTokenAdmin, agents.del); // delete a user
+app.post('/agents_list', verifyTokenAdmin, agents.list); // get all users
+app.post('/agents_login', agents.login); // login
 
 app.post('/files/readFolderContents', verifyTokenAdmin, files.readFolderContents); // read all files in tmp folder
 app.post('/files/removeFile', verifyTokenAdmin, files.removeFile); // remove a file
@@ -66,7 +66,7 @@ app.post('/data/getAll', verifyTokenAdmin, data.getAll); // get all newest files
 app.post('/data/getByDateSingle', verifyTokenAdmin, data.getByDateSingle); // get all files from FTP server by date
 app.post('/data/getByDateAll', verifyTokenAdmin, data.getByDateAll); // get all files from FTP server by date
 
-app.post('/mail', verifyTokenAdmin, users.mail); // get all files from FTP server by date
+app.post('/mail', verifyTokenAdmin, agents.mail); // get all files from FTP server by date
 
 if (env.NODE_ENV === 'production') {
   // set static folder
