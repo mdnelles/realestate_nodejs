@@ -17,7 +17,7 @@ export const loadAgents = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Agents.destroy({ where: {} });
+    // await Agents.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -61,7 +61,7 @@ export const loadCom = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Companies.destroy({ where: {} });
+    //await Companies.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -156,7 +156,7 @@ export const loadLinks = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Links.destroy({ where: {} });
+    //await Links.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -190,7 +190,7 @@ export const loadListings = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Listings.destroy({ where: {} });
+    // await Listings.destroy({ where: {} });
 
     stream
       .pipe(csv())
@@ -292,7 +292,7 @@ export const loadOffices = async (req: Req, res: Res): Promise<any> => {
     const results: any = [];
 
     // truncate the table
-    await Offices.destroy({ where: {} });
+    // await Offices.destroy({ where: {} });
 
     stream
       .pipe(csv())
