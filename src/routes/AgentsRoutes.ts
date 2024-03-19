@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 /* eslint-disable */
 const env = require('dotenv').config().parsed;
-import { Users } from '../database/models/users';
 import { Request as Req, Response as Res } from 'express';
 import { Agents } from '../database/models/agents';
 import { generatePassword } from '../utilities/general';
@@ -26,7 +25,7 @@ export const register = async (req: Req, res: Res): Promise<any> => {
   };
 
   try {
-    let user = await Users.findOne({
+    let user = await Agents.findOne({
       where: {
         email,
         isdeleted: 0,
@@ -36,7 +35,7 @@ export const register = async (req: Req, res: Res): Promise<any> => {
     if (!user) {
       bcrypt.hash(password, 10, async (err: any, hash: any) => {
         userData.password = hash;
-        user = await Users.create(userData);
+        user = await Agents.create(userData);
         res.json({ status: 200, err: false, msg: 'ok', user });
       });
     } else {
@@ -51,7 +50,7 @@ export const register = async (req: Req, res: Res): Promise<any> => {
 export const edit = async (req: Req, res: Res): Promise<any> => {
   const { first_name, last_name, password } = req.body;
   try {
-    let user = await Users.update({ first_name, last_name, password }, { where: { id: req.body.id } }, { limit: 1 });
+    let user = await Agents.update({ first_name, last_name, password }, { where: { id: req.body.id } }, { limit: 1 });
     res.json({ status: 200, err: false, msg: 'user exists', user });
   } catch (error) {
     res.json({ status: 200, err: true, error });
@@ -89,7 +88,7 @@ export const login = async (req: Req, res: Res): Promise<any> => {
 
 export const del = async (req: Req, res: Res): Promise<any> => {
   try {
-    let data = await Users.update({ isDeleted: 1 }, { returning: true, where: { id: req.body.id } });
+    let data = await Agents.update({ isDeleted: 1 }, { returning: true, where: { id: req.body.id } });
     res.json({ status: 200, err: false, msg: 'ok', data });
   } catch (error) {
     res.json({ status: 201, err: true, msg: '', error });
@@ -98,7 +97,7 @@ export const del = async (req: Req, res: Res): Promise<any> => {
 
 export const list = async (req: Req, res: Res): Promise<any> => {
   try {
-    let data = await Users.findAll({
+    let data = await Agents.findAll({
       where: {
         isDeleted: 0,
       },

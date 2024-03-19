@@ -39,11 +39,12 @@ app.post('/csv/loadLinks', verifyTokenAdmin, csv.loadLinks); // load links
 app.post('/csv/loadListings', verifyTokenAdmin, csv.loadListings); // load listings
 app.post('/csv/loadOffices', verifyTokenAdmin, csv.loadOffices); // load offices
 
-app.post('/agents_register', agents.register); // register a new user
-app.post('/agents_edit', verifyTokenAdmin, agents.register); // edit a user
-app.post('/agents_delete', verifyTokenAdmin, agents.del); // delete a user
-app.post('/agents_list', verifyTokenAdmin, agents.list); // get all users
+app.post('/agents_register', agents.register); // register a new agent
+app.post('/agents_edit', verifyTokenAdmin, agents.register); // edit a agent
+app.post('/agents_delete', verifyTokenAdmin, agents.del); // delete a agent
+app.post('/agents_list', verifyTokenAdmin, agents.list); // get all agents
 app.post('/agents_login', agents.login); // login
+app.post('/reset_password', agents.resetPassword); // reset password
 
 app.post('/files/readFolderContents', verifyTokenAdmin, files.readFolderContents); // read all files in tmp folder
 app.post('/files/removeFile', verifyTokenAdmin, files.removeFile); // remove a file
