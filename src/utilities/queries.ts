@@ -3,7 +3,6 @@ import { Companies } from '../database/models/companies';
 import { Links } from '../database/models/links';
 import { Listings } from '../database/models/listings';
 import { Offices } from '../database/models/offices';
-import { Users } from '../database/models/users';
 
 export function getModelForTable(table: string) {
   switch (table.toLowerCase()) {
@@ -17,8 +16,6 @@ export function getModelForTable(table: string) {
       return Listings;
     case 'offices':
       return Offices;
-    case 'users':
-      return Users;
 
     default:
       return null;
