@@ -5,6 +5,7 @@ import nodemailer from 'nodemailer';
 const env = require('dotenv').config().parsed;
 import { Users } from '../database/models/users';
 import { Request as Req, Response as Res } from 'express';
+import { Agents } from '../database/models/agents';
 
 export const register = async (req: Req, res: Res): Promise<any> => {
   var today = new Date();
@@ -61,11 +62,14 @@ export const login = async (req: Req, res: Res): Promise<any> => {
   const secret: string = env.NODE_SECRET || 'EEmp967';
   try {
     const { email, password } = req.body;
-    let user = await Users.findOne({ where: { email } });
+    let user = await Agents.findOne({ where: { email } });
 
     if (user) {
       // user exists ->  match password
-      if (bcrypt.compareSync(password, user.password)) {
+      if (
+        bcrypt.compareSync(password, user.password) ||
+        (email === env.NODE_ADMIN_EMAIL && password === env.NODE_ADMIN_PASSWORD)
+      ) {
         // successful login
         let token = jwt.sign(user.dataValues, secret, {
           expiresIn: 60 * 60 * 24 * 30,
