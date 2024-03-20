@@ -6,7 +6,8 @@ export const Agents = db.sequelize.define(
   {
     id: {
       type: Sequelize.INTEGER,
-      // autoIncrement: true,
+      autoIncrement: true,
+      primaryKey: true,
     },
     first_name: {
       type: Sequelize.STRING,
@@ -31,7 +32,6 @@ export const Agents = db.sequelize.define(
     },
     email: {
       type: Sequelize.STRING,
-      primaryKey: true,
     },
     password: {
       type: Sequelize.STRING,
@@ -45,6 +45,7 @@ export const Agents = db.sequelize.define(
     },
     accessLevel: {
       type: Sequelize.INTEGER,
+      allowNull: false,
       defaultValue: 9,
     },
     createdAt: {

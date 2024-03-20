@@ -6,46 +6,7 @@ const env = require('dotenv').config().parsed;
 import { Request as Req, Response as Res } from 'express';
 import { Agents } from '../database/models/agents';
 import { generatePassword } from '../utilities/general';
-
-export const register = async (req: Req, res: Res): Promise<any> => {
-  var today = new Date();
-  const { first_name, last_name, email, password, agent_id = 0, last_login, createdAt, updatedAt } = req.body;
-
-  const userData = {
-    first_name,
-    last_name,
-    email,
-    password,
-    userLevel: '5', // '1' highest '5' lowest
-    agent_id,
-    last_login,
-    createdAt,
-    updatedAt,
-    isDeleted: 0,
-  };
-
-  try {
-    let user = await Agents.findOne({
-      where: {
-        email,
-        isdeleted: 0,
-      },
-    });
-
-    if (!user) {
-      bcrypt.hash(password, 10, async (err: any, hash: any) => {
-        userData.password = hash;
-        user = await Agents.create(userData);
-        res.json({ status: 200, err: false, msg: 'ok', user });
-      });
-    } else {
-      res.json({ status: 200, err: true, msg: 'user exists' });
-    }
-  } catch (error) {
-    res.json({ status: 201, err: true, msg: '', error });
-    console.log(error);
-  }
-};
+import { db } from '../database/db';
 
 export const edit = async (req: Req, res: Res): Promise<any> => {
   const { first_name, last_name, password } = req.body;
@@ -62,7 +23,12 @@ export const login = async (req: Req, res: Res): Promise<any> => {
   const secret: string = env.NODE_SECRET || 'EEmp967';
   try {
     const { email, password } = req.body;
-    let user = await Agents.findOne({ where: { email } });
+    let user = await Agents.findOne({
+      where: {
+        email,
+        accessLevel: { [db.Sequelize.Op.lte]: 8 }, // Op.lte stands for less than or equal to
+      },
+    });
 
     if (user) {
       // user exists ->  match password
@@ -112,7 +78,12 @@ export const resetPassword = async (req: Req, res: Res): Promise<any> => {
   const { email } = req.body;
   const password = generatePassword(10);
   try {
-    let agent = await Agents.findOne({ where: { email } });
+    let agent = await Agents.findOne({
+      where: {
+        email,
+        accessLevel: { [db.Sequelize.Op.lte]: 8 }, // Op.lte stands for less than or equal to
+      },
+    });
     if (agent) {
       bcrypt.hash(password, 10, async (err: any, hash: any) => {
         await Agents.update({ password: hash }, { where: { email } });
@@ -120,7 +91,7 @@ export const resetPassword = async (req: Req, res: Res): Promise<any> => {
       });
       extMailer({ to: email, subject: 'Password Reset', message: `Your new password is ${password}` });
     } else {
-      res.json({ status: 200, err: true, msg: `No account exists with ${email}`, severity: 'error' });
+      res.json({ status: 200, err: true, msg: `No account with access exists with ${email}`, severity: 'error' });
     }
   } catch (error) {
     res.json({ status: 201, err: true, msg: 'Failed to reset password', severity: 'error', error });
@@ -191,3 +162,44 @@ export default function extMailer(params: msgType) {
 
   //setTimeout(shutDown, 5000); // 10 seconds
 }
+
+// this is done on the crud create
+// export const register = async (req: Req, res: Res): Promise<any> => {
+//   var today = new Date();
+//   const { first_name, last_name, email, password, agent_id = 0, last_login, createdAt, updatedAt } = req.body;
+
+//   const userData = {
+//     first_name,
+//     last_name,
+//     email,
+//     password,
+//     userLevel: , // '1' highest '5' lowest
+//     agent_id,
+//     last_login,
+//     createdAt,
+//     updatedAt,
+//     isDeleted: 0,
+//   };
+
+//   try {
+//     let user = await Agents.findOne({
+//       where: {
+//         email,
+//         isdeleted: 0,
+//       },
+//     });
+
+//     if (!user) {
+//       bcrypt.hash(password, 10, async (err: any, hash: any) => {
+//         userData.password = hash;
+//         user = await Agents.create(userData);
+//         res.json({ status: 200, err: false, msg: 'ok', user });
+//       });
+//     } else {
+//       res.json({ status: 200, err: true, msg: 'user exists' });
+//     }
+//   } catch (error) {
+//     res.json({ status: 201, err: true, msg: '', error });
+//     console.log(error);
+//   }
+// };
