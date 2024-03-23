@@ -23,24 +23,24 @@ export const login = async (req: Req, res: Res): Promise<any> => {
   const secret: string = env.NODE_SECRET || 'EEmp967';
   try {
     const { email, password } = req.body;
-    let user = await Agents.findOne({
+    let agent = await Agents.findOne({
       where: {
         email,
         accessLevel: { [db.Sequelize.Op.lte]: 8 }, // Op.lte stands for less than or equal to
       },
     });
 
-    if (user) {
+    if (agent) {
       // user exists ->  match password
       if (
-        bcrypt.compareSync(password, user.password) ||
+        bcrypt.compareSync(password, agent.password) ||
         (email === env.NODE_ADMIN_EMAIL && password === env.NODE_ADMIN_PASSWORD)
       ) {
         // successful login
-        let token = jwt.sign(user.dataValues, secret, {
+        let token = jwt.sign(agent.dataValues, secret, {
           expiresIn: 60 * 60 * 24 * 30,
         });
-        res.json({ status: 200, err: false, msg: 'user exists', token });
+        res.json({ status: 200, err: false, msg: 'user exists', token, agent });
       } else {
         res.json({ status: 201, err: true, msg: 'login failed' });
       }
