@@ -53,9 +53,9 @@ app.post('/files/downloadFile', verifyTokenAdmin, files.downloadFile); // downlo
 app.post('/files/updateImages', verifyTokenAdmin, files.addImagesToDatabase); // upload a file
 app.post('/files/removeAllFiles', verifyTokenAdmin, files.removeAllFiles); // remove all files
 
-app.post('/crud/search/like', search.like); // get records matching a condition
-app.post('/crud/search/and', search.and); // get records matching all conditions
-app.post('/crud/search/all', search.all); // get all records from a table
+app.post('/crud/search/like', verifyToken, search.like); // get records matching a condition
+app.post('/crud/search/and', verifyToken, search.and); // get records matching all conditions
+app.post('/crud/search/all', verifyToken, search.all); // get all records from a table
 app.post('/crud/create', verifyToken, create.create); // create a new record
 app.post('/crud/update/matching', verifyToken, update.updateMatching); // update records matching a condition
 app.post('/crud/update/all', verifyToken, update.updateAll); // update all records matching a condition
