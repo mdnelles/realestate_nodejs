@@ -7,7 +7,7 @@ import helmet from 'helmet';
 /* eslint-disable */
 const env = require('dotenv').config().parsed;
 
-import { verifyTokenAdmin } from './routes/Token';
+import { verifyToken, verifyTokenAdmin } from './routes/Token';
 
 import * as agents from './routes/AgentsRoutes';
 import * as csv from './routes/CsvRoutes';
@@ -42,7 +42,7 @@ app.post('/csv/loadOffices', verifyTokenAdmin, csv.loadOffices); // load offices
 // app.post('/agents_register', agents.register); // register a new agent
 app.post('/agents_edit', verifyTokenAdmin, agents.edit); // edit a agent
 app.post('/agents_delete', verifyTokenAdmin, agents.del); // delete a agent
-app.post('/agents_list', verifyTokenAdmin, agents.list); // get all agents
+app.post('/agents_list', verifyToken, agents.list); // get all agents
 app.post('/agents_login', agents.login); // login
 app.post('/reset_password', agents.resetPassword); // reset password
 
@@ -56,18 +56,18 @@ app.post('/files/removeAllFiles', verifyTokenAdmin, files.removeAllFiles); // re
 app.post('/crud/search/like', search.like); // get records matching a condition
 app.post('/crud/search/and', search.and); // get records matching all conditions
 app.post('/crud/search/all', search.all); // get all records from a table
-app.post('/crud/create', verifyTokenAdmin, create.create); // create a new record
-app.post('/crud/update/matching', verifyTokenAdmin, update.updateMatching); // update records matching a condition
-app.post('/crud/update/all', verifyTokenAdmin, update.updateAll); // update all records matching a condition
-app.post('/crud/updatebyid', verifyTokenAdmin, update.updateById); // update a record by id
-app.post('/crud/delete/matching', verifyTokenAdmin, del.deleteMatching); // delete records matching a condition
-app.post('/crud/delete/truncate', verifyTokenAdmin, del.truncateTable); // clear all records from a table
+app.post('/crud/create', verifyToken, create.create); // create a new record
+app.post('/crud/update/matching', verifyToken, update.updateMatching); // update records matching a condition
+app.post('/crud/update/all', verifyToken, update.updateAll); // update all records matching a condition
+app.post('/crud/updatebyid', verifyToken, update.updateById); // update a record by id
+app.post('/crud/delete/matching', verifyToken, del.deleteMatching); // delete records matching a condition
+app.post('/crud/delete/truncate', verifyToken, del.truncateTable); // clear all records from a table
 
-app.post('/data/getAll', verifyTokenAdmin, data.getAll); // get all newest files from FTP server
-app.post('/data/getByDateSingle', verifyTokenAdmin, data.getByDateSingle); // get all files from FTP server by date
-app.post('/data/getByDateAll', verifyTokenAdmin, data.getByDateAll); // get all files from FTP server by date
+app.post('/data/getAll', verifyToken, data.getAll); // get all newest files from FTP server
+app.post('/data/getByDateSingle', verifyToken, data.getByDateSingle); // get all files from FTP server by date
+app.post('/data/getByDateAll', verifyToken, data.getByDateAll); // get all files from FTP server by date
 
-app.post('/mail', verifyTokenAdmin, agents.mail); // get all files from FTP server by date
+app.post('/mail', verifyToken, agents.mail); // get all files from FTP server by date
 
 if (env.NODE_ENV === 'production') {
   // set static folder
